@@ -26,6 +26,8 @@ import javafx.scene.text.Text;
 public class FXMLDocumentController implements Initializable {
 
     ObservableList<Node> childrens;
+    Domino game;
+    int X_LIMIT = 11, Y_LIMIT = 5;
     String[][] horPieces
             = {{"🀱", "🀲", "🀳", "🀴", "🀵", "🀶", "🀷"},
             {"🀸", "🀹", "🀺", "🀻", "🀼", "🀽", "🀾"},
@@ -79,10 +81,6 @@ public class FXMLDocumentController implements Initializable {
     {2, 3},
     {2, 4}};
 
-    Domino game;
-
-    int x = 0, y = 0, X_LIMIT = 10, Y_LIMIT = 5;
-
     @FXML
     private GridPane dominoGrid;
 
@@ -94,7 +92,6 @@ public class FXMLDocumentController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
         childrens = dominoGrid.getChildren();
         clearScreen();
         game = new Domino();
@@ -115,10 +112,7 @@ public class FXMLDocumentController implements Initializable {
         List<DominoPiece> left = t.getLeftSide();
         List<DominoPiece> right = t.getRightSide();
         DominoPiece start = t.getStartPiece();
-
         int l_count, r_count;
-
-        System.out.println("" + left.size() + "   " + right.size());
 
         setPiece(5, 2, start);
 
@@ -142,12 +136,10 @@ public class FXMLDocumentController implements Initializable {
     }
 
     private void setPiece(int x, int y, DominoPiece p) {
-        System.out.println(p.getA() + " " + p.getB() + "");
         if (x == 10 || x == 0 || ((x == 3 || x == 7) && y < 2)) {
-            ((Text) childrens.get(x + y * 11)).setText(verPieces[p.getA()][p.getB()]);
+            ((Text) childrens.get(x + y * X_LIMIT)).setText(verPieces[p.getA()][p.getB()]);
         } else {
-            ((Text) childrens.get(x + y * 11)).setText(horPieces[p.getA()][p.getB()]);
+            ((Text) childrens.get(x + y * X_LIMIT)).setText(horPieces[p.getA()][p.getB()]);
         }
     }
-
 }
