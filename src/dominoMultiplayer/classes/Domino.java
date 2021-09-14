@@ -14,25 +14,41 @@ import java.util.Stack;
  * @author gusta
  */
 public class Domino {
+
     private final Stack<DominoPiece> pieces;
-    
-    public Domino(){
+    private DominoTable table;
+
+    public Domino() {
         pieces = new Stack<>();
         for (int i = 0; i < 7; i++) {
             for (int j = i; j < 7; j++) {
-                pieces.push(new DominoPiece(i, j));  
+                pieces.push(new DominoPiece(i, j));
             }
         }
+        
+        for (int i = 0; i < 3; i++) {
+            pieces.push(new DominoPiece());
+        }
+
         Collections.shuffle(pieces, new Random(System.currentTimeMillis()));
+        table = new DominoTable();
+
+        table.setStartPiece(new DominoPiece());
     }
-    
-    public DominoPiece getNextPiece(){
+
+    public DominoTable getTable() {
+        return table;
+    }
+
+    public DominoPiece getNextPiece() {
         return pieces.pop();
-    } 
-    public boolean end(){
+    }
+
+    public boolean end() {
         return pieces.isEmpty();
     }
-    public int remaining(){
+
+    public int remaining() {
         return pieces.size();
     }
 }

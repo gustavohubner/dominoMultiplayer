@@ -7,7 +7,9 @@ package dominoMultiplayer;
 
 import dominoMultiplayer.classes.DominoPiece;
 import dominoMultiplayer.classes.Domino;
+import dominoMultiplayer.classes.DominoTable;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -45,6 +47,38 @@ public class FXMLDocumentController implements Initializable {
             {"🂍", "🂎", "🂏", "🂐", "🂑", "🂒", "🂓"},
             {"🁢"}};
 
+    Integer[][] path = {{2, 6},
+    {2, 7},
+    {1, 7},
+    {0, 7},
+    {0, 8},
+    {0, 9},
+    {0, 10},
+    {1, 10},
+    {2, 10},
+    {3, 10},
+    {4, 10},
+    {4, 9},
+    {4, 8},
+    {4, 7},
+    {4, 6},
+    {4, 5},
+    {4, 4},
+    {4, 3},
+    {4, 2},
+    {4, 1},
+    {4, 0},
+    {3, 0},
+    {2, 0},
+    {1, 0},
+    {0, 0},
+    {0, 1},
+    {0, 2},
+    {0, 3},
+    {1, 3},
+    {2, 3},
+    {2, 4}};
+
     Domino game;
 
     int x = 0, y = 0, X_LIMIT = 10, Y_LIMIT = 5;
@@ -62,33 +96,58 @@ public class FXMLDocumentController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
         childrens = dominoGrid.getChildren();
-        for (int j = 0; j < childrens.size(); j++) {
-            ((Text) childrens.get(j)).setText(" ");
-
-        }
-
+        clearScreen();
         game = new Domino();
 
     }
 
     public void gridClick() {
-        //dominoGrid.setMargin(childrens.get(10), new Insets(0, 0, 0, -24));
-        if (x >= X_LIMIT) {
-            x = 0;
-            y++;
-        }
-        if (y >= Y_LIMIT) {
-            y = 0;
+        if (!game.end()) {
+            game.getTable().addRight(game.getNextPiece());
         }
         if (!game.end()) {
-            DominoPiece p = game.getNextPiece();
-            ((Text) childrens.get(x + y * X_LIMIT)).setText(horPieces[p.getA()][p.getB()]);
-            x++;
-        } else {
-            System.err.println("empty!!");
+            game.getTable().addLeft(game.getNextPiece());
+        }
+        drawGrid(game.getTable());
+    }
+
+    public void drawGrid(DominoTable t) {
+        List<DominoPiece> left = t.getLeftSide();
+        List<DominoPiece> right = t.getRightSide();
+        DominoPiece start = t.getStartPiece();
+
+        int l_count, r_count;
+
+        System.out.println("" + left.size() + "   " + right.size());
+
+        setPiece(5, 2, start);
+
+        for (l_count = 0; l_count < left.size(); l_count++) {
+            DominoPiece p = left.get(l_count);
+            Integer[] pos = path[path.length - l_count - 1];
+            setPiece(pos[1], pos[0], p);
         }
 
-        //System.out.println("" + verPieces + "    " + unicodeChar(verPieces, 5));
+        for (r_count = 0; r_count < right.size(); r_count++) {
+            DominoPiece p = right.get(r_count);
+            Integer[] pos = path[r_count];
+            setPiece(pos[1], pos[0], p);
+        }
+    }
+
+    private void clearScreen() {
+        for (int i = 0; i < childrens.size(); i++) {
+            ((Text) (childrens.get(i))).setText(" ");
+        }
+    }
+
+    private void setPiece(int x, int y, DominoPiece p) {
+        System.out.println(p.getA() + " " + p.getB() + "");
+        if (x == 10 || x == 0 || ((x == 3 || x == 7) && y < 2)) {
+            ((Text) childrens.get(x + y * 11)).setText(verPieces[p.getA()][p.getB()]);
+        } else {
+            ((Text) childrens.get(x + y * 11)).setText(horPieces[p.getA()][p.getB()]);
+        }
     }
 
 }
