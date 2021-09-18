@@ -13,6 +13,15 @@ import java.util.Random;
  */
 public class DominoPiece {
 
+    private final String[][] pieceString = {{"🁣", "🁤", "🁥", "🁦", "🁧", "🁨", "🁩"},
+    {"🁪", "🁫", "🁬", "🁭", "🁮", "🁯", "🁰"},
+    {"🁱", "🁲", "🁳", "🁴", "🁵", "🁶", "🁷"},
+    {"🁸", "🁹", "🁺", "🁻", "🁼", "🁽", "🁾"},
+    {"🁿", "🂀", "🂁", "🂂", "🂃", "🂄", "🂅"},
+    {"🂆", "🂇", "🂈", "🂉", "🂊", "🂋", "🂌"},
+    {"🂍", "🂎", "🂏", "🂐", "🂑", "🂒", "🂓"},
+    {"🁢"}};
+
     private int a;
     private int b;
 
@@ -30,16 +39,27 @@ public class DominoPiece {
         return a;
     }
 
-    public void setA(int a) {
-        this.a = a;
-    }
-
     public int getB() {
         return b;
     }
 
-    public void setB(int b) {
+    private void setA(int a) {
+        this.a = a;
+    }
+
+    private void setB(int b) {
         this.b = b;
+    }
+
+    public void rotate() {
+        int aux = this.a;
+        this.a = this.b;
+        this.b = aux;
+    }
+
+    @Override
+    public String toString() {
+        return pieceString[a][b];
     }
 
 }

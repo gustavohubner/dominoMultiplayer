@@ -7,15 +7,18 @@ package dominoMultiplayer;
 
 import dominoMultiplayer.classes.DominoPiece;
 import dominoMultiplayer.classes.Domino;
-import dominoMultiplayer.classes.DominoTable;
 import java.net.URL;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
 
@@ -25,9 +28,16 @@ import javafx.scene.text.Text;
  */
 public class FXMLDocumentController implements Initializable {
 
-    ObservableList<Node> childrens;
-    Domino game;
     int X_LIMIT = 11, Y_LIMIT = 5;
+    ObservableList<Node> pieceGrid;
+    Domino game;
+    int hash;
+    int selecIndex = -1;
+    int selecSide = 0;
+
+    Text lastLeft;
+    Text lastRight;
+
     String[][] horPieces
             = {{"🀱", "🀲", "🀳", "🀴", "🀵", "🀶", "🀷"},
             {"🀸", "🀹", "🀺", "🀻", "🀼", "🀽", "🀾"},
@@ -83,63 +93,151 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private GridPane dominoGrid;
+    @FXML
+    private FlowPane playerHand;
+    @FXML
+    private Button buyPiece;
 
     public FXMLDocumentController() {
 
     }
 
     @FXML
-
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        childrens = dominoGrid.getChildren();
-        clearScreen();
+        pieceGrid = dominoGrid.getChildren();
         game = new Domino();
+        hash = game.addPlayer();
+        clearScreen();
+
+        playerHand.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                selecIndex = -1;
+                drawGrid(game);
+                if (mouseEvent.getTarget().getClass() == Text.class) {
+                    Text t = (Text) mouseEvent.getTarget();
+                    System.out.println("" + t.getText() + " index:" + playerHand.getChildren().indexOf(t) + " side: " + selecSide);
+                    selecIndex = playerHand.getChildren().indexOf(t);
+
+                    t.setFill(javafx.scene.paint.Color.RED);
+                }
+            }
+        });
+        dominoGrid.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if (mouseEvent.getTarget().getClass() == Text.class) {
+                    Text t = (Text) mouseEvent.getTarget();
+                    if (t.getText().equals(lastLeft.getText())) {
+                        selecSide = 0;
+                        System.out.println("left selectect");
+                    }
+                    if (t.getText().equals(lastRight.getText())) {
+                        selecSide = 1;
+                        System.out.println("right selectect");
+                    }
+                }
+
+                if (!game.end()) {
+                    if (selecIndex != -1 && selecSide != -1) {
+                        boolean b = game.addPiece(selecSide, hash, selecIndex);
+                        System.out.println("add resp: " + (b ? "sucesse" : "fail"));
+                        selecIndex = -1;
+                    }
+                }
+                drawGrid(game);
+            }
+        });
+        drawGrid(game);
 
     }
 
-    public void gridClick() {
-        if (!game.end()) {
-            game.getTable().addRight(game.getNextPiece());
-        }
-        if (!game.end()) {
-            game.getTable().addLeft(game.getNextPiece());
-        }
-        drawGrid(game.getTable());
+    @FXML
+    public void buyPiece() {
+        boolean bougth = game.buyPiece(hash);
+        drawGrid(game);
+        System.out.println("bougth: "+ bougth);
+        buyPiece.setDisable(!bougth);
     }
 
-    public void drawGrid(DominoTable t) {
-        List<DominoPiece> left = t.getLeftSide();
-        List<DominoPiece> right = t.getRightSide();
-        DominoPiece start = t.getStartPiece();
+    public void drawGrid(Domino game) {
+        clearScreen();
+        List<DominoPiece> left = game.getLeftSide();
+        List<DominoPiece> right = game.getRightSide();
+        DominoPiece start = game.getStartPiece();
         int l_count, r_count;
+        if (start != null) {
+            Integer[] l = path[0];
+            Integer[] r = path[path.length - 1];
+            setPiece(5, 2, start);
+            lastRight = ((Text) pieceGrid.get(path[0][1] + path[0][0] * X_LIMIT));
+            lastLeft = ((Text) pieceGrid.get(path[path.length - 1][1] + path[path.length - 1][0] * X_LIMIT));
 
-        setPiece(5, 2, start);
-
-        for (l_count = 0; l_count < left.size(); l_count++) {
-            DominoPiece p = left.get(l_count);
-            Integer[] pos = path[path.length - l_count - 1];
-            setPiece(pos[1], pos[0], p);
+            ((Text) pieceGrid.get(path[0][1] + path[0][0] * X_LIMIT)).setText("⇨");
+            ((Text) pieceGrid.get(path[path.length - 1][1] + path[path.length - 1][0] * X_LIMIT)).setText("⇦");
         }
 
-        for (r_count = 0; r_count < right.size(); r_count++) {
-            DominoPiece p = right.get(r_count);
-            Integer[] pos = path[r_count];
-            setPiece(pos[1], pos[0], p);
+        if (left != null) {
+            for (l_count = 0; l_count < left.size(); l_count++) {
+                DominoPiece p = left.get(l_count);
+                Integer[] pos = path[path.length - l_count - 1];
+                lastLeft = setPiece(pos[1], pos[0], p);
+            }
+        }
+        if (right != null) {
+            for (r_count = 0; r_count < right.size(); r_count++) {
+                DominoPiece p = right.get(r_count);
+                Integer[] pos = path[r_count];
+                lastRight = setPiece(pos[1], pos[0], p);
+            }
+        }
+
+        LinkedList<DominoPiece> hand = game.getPlayerHand(hash);
+        DominoPiece p;
+        for (int i = 0; i < hand.size(); i++) {
+            p = hand.get(i);
+            ((Text) playerHand.getChildren().get(i)).setText(verPieces[p.getA()][p.getB()]);
+            ((Text) playerHand.getChildren().get(i)).setFill(javafx.scene.paint.Color.BLACK);
         }
     }
 
     private void clearScreen() {
-        for (int i = 0; i < childrens.size(); i++) {
-            ((Text) (childrens.get(i))).setText(" ");
+        for (int i = 0; i < pieceGrid.size(); i++) {
+            ((Text) (pieceGrid.get(i))).setText(" ");
+        }
+        for (int i = 0; i < playerHand.getChildren().size(); i++) {
+            ((Text) playerHand.getChildren().get(i)).setText(" ");
         }
     }
 
-    private void setPiece(int x, int y, DominoPiece p) {
-        if (x == 10 || x == 0 || ((x == 3 || x == 7) && y < 2)) {
-            ((Text) childrens.get(x + y * X_LIMIT)).setText(verPieces[p.getA()][p.getB()]);
-        } else {
-            ((Text) childrens.get(x + y * X_LIMIT)).setText(horPieces[p.getA()][p.getB()]);
+    private Text setPiece(int x, int y, DominoPiece p) {
+        ((Text) pieceGrid.get(x + y * X_LIMIT)).setText(horPieces[p.getA()][p.getB()]);
+        if (p == null) {
+            ((Text) pieceGrid.get(x + y * X_LIMIT)).setText(" ");
         }
+        if (x == 7 && y < 2) {
+            ((Text) pieceGrid.get(x + y * X_LIMIT)).setText(verPieces[p.getB()][p.getA()]);
+        }
+        if (x == 3 && y < 2) {
+            ((Text) pieceGrid.get(x + y * X_LIMIT)).setText(verPieces[p.getA()][p.getB()]);
+        }
+        if (y == 4) {
+            ((Text) pieceGrid.get(x + y * X_LIMIT)).setText(horPieces[p.getB()][p.getA()]);
+        }
+        if (x == 10) {
+            ((Text) pieceGrid.get(x + y * X_LIMIT)).setText(verPieces[p.getA()][p.getB()]);
+        }
+        if (x == 0) {
+            ((Text) pieceGrid.get(x + y * X_LIMIT)).setText(verPieces[p.getB()][p.getA()]);
+        }
+
+        return ((Text) pieceGrid.get(x + y * X_LIMIT));
+    }
+
+    @FXML
+    public void clickPlayerHand(MouseEvent event) {
+        Text target = (Text) event.getTarget();
+        System.out.println("Index piece: " + pieceGrid.indexOf(target));
     }
 }

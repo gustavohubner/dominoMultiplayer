@@ -7,7 +7,6 @@ package dominoMultiplayer.classes;
 
 import java.util.LinkedList;
 import java.util.List;
-import javafx.util.Pair;
 
 /**
  *
@@ -18,9 +17,8 @@ public class DominoTable {
     private DominoPiece startPiece;
     private List<DominoPiece> leftSide;
     private List<DominoPiece> rightSide;
-    
-    
-    public int pieceCount;
+
+    private int pieceCount;
 
     public DominoTable() {
         rightSide = new LinkedList<>();
@@ -45,14 +43,56 @@ public class DominoTable {
         return rightSide;
     }
 
-    public void addLeft(DominoPiece p) {
-        leftSide.add(p);
-        pieceCount++;
+    public boolean addLeft(DominoPiece p) {
+        DominoPiece top;
+        if (pieceCount == 0) {
+            setStartPiece(p);
+            return true;
+        }
+        if (leftSide.size() > 0) {
+            top = leftSide.get(leftSide.size() - 1);
+        } else {
+            top = getStartPiece();
+        }
+
+        if (p.getA() == top.getA()) {
+            p.rotate();
+        }
+        if (p.getB() == top.getA() || p.getA() == top.getA()) {
+            leftSide.add(p);
+            pieceCount++;
+            return true;
+        }
+
+        return false;
     }
 
-    public void addRight(DominoPiece p) {
-        rightSide.add(p);
-        pieceCount++;
+    public boolean addRight(DominoPiece p) {
+        DominoPiece top;
+        if (pieceCount == 0) {
+            setStartPiece(p);
+            return true;
+        }
+        if (rightSide.size() > 0) {
+            top = rightSide.get(rightSide.size() - 1);
+        } else {
+            top = getStartPiece();
+        }
+
+        if (p.getB() == top.getB()) {
+            p.rotate();
+        }
+        if (p.getA() == top.getB() || p.getB() == top.getB()) {
+            rightSide.add(p);
+            pieceCount++;
+            return true;
+        }
+
+        return false;
+    }
+    
+    public int getPieceCount(){
+        return pieceCount;
     }
 
 }

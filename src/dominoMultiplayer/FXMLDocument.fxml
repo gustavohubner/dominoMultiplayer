@@ -29,7 +29,7 @@
                <children>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
                      <children>
-                        <GridPane id="dominoGrid" fx:id="dominoGrid" alignment="CENTER" minWidth="-Infinity" onMouseClicked="#gridClick" prefHeight="400.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <GridPane id="dominoGrid" fx:id="dominoGrid" alignment="CENTER" minWidth="-Infinity" prefHeight="400.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="0.0" />
                               <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="0.0" />
@@ -461,7 +461,7 @@
                                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                                 </rowConstraints>
                                  <children>
-                                    <FlowPane alignment="CENTER_LEFT" hgap="10.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="90.0" prefWidth="1056.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                                    <FlowPane id="playerHand" fx:id="playerHand" alignment="CENTER_LEFT" hgap="10.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="90.0" prefWidth="1056.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
                                        <children>
                                           <Text boundsType="VISUAL" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
                                              <font>
@@ -527,6 +527,71 @@
                                                 <Insets />
                                              </FlowPane.margin>
                                           </Text>
+                                          <Text boundsType="VISUAL" layoutX="336.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
+                                             <font>
+                                                <Font name="Lucida Calligraphy Italic" size="80.0" />
+                                             </font>
+                                          </Text>
+                                          <Text boundsType="VISUAL" layoutX="385.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
+                                             <font>
+                                                <Font name="Lucida Calligraphy Italic" size="80.0" />
+                                             </font>
+                                          </Text>
+                                          <Text boundsType="VISUAL" layoutX="-7.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
+                                             <font>
+                                                <Font name="Lucida Calligraphy Italic" size="80.0" />
+                                             </font>
+                                          </Text>
+                                          <Text boundsType="VISUAL" layoutX="42.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
+                                             <font>
+                                                <Font name="Lucida Calligraphy Italic" size="80.0" />
+                                             </font>
+                                          </Text>
+                                          <Text boundsType="VISUAL" layoutX="91.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
+                                             <font>
+                                                <Font name="Lucida Calligraphy Italic" size="80.0" />
+                                             </font>
+                                          </Text>
+                                          <Text boundsType="VISUAL" layoutX="140.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
+                                             <font>
+                                                <Font name="Lucida Calligraphy Italic" size="80.0" />
+                                             </font>
+                                          </Text>
+                                          <Text boundsType="VISUAL" layoutX="189.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
+                                             <font>
+                                                <Font name="Lucida Calligraphy Italic" size="80.0" />
+                                             </font>
+                                          </Text>
+                                          <Text boundsType="VISUAL" layoutX="238.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
+                                             <font>
+                                                <Font name="Lucida Calligraphy Italic" size="80.0" />
+                                             </font>
+                                          </Text>
+                                          <Text boundsType="VISUAL" layoutX="287.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
+                                             <font>
+                                                <Font name="Lucida Calligraphy Italic" size="80.0" />
+                                             </font>
+                                          </Text>
+                                          <Text boundsType="VISUAL" layoutX="336.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
+                                             <font>
+                                                <Font name="Lucida Calligraphy Italic" size="80.0" />
+                                             </font>
+                                          </Text>
+                                          <Text boundsType="VISUAL" layoutX="385.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
+                                             <font>
+                                                <Font name="Lucida Calligraphy Italic" size="80.0" />
+                                             </font>
+                                          </Text>
+                                          <Text boundsType="VISUAL" layoutX="434.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
+                                             <font>
+                                                <Font name="Lucida Calligraphy Italic" size="80.0" />
+                                             </font>
+                                          </Text>
+                                          <Text boundsType="VISUAL" layoutX="924.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
+                                             <font>
+                                                <Font name="Lucida Calligraphy Italic" size="80.0" />
+                                             </font>
+                                          </Text>
                                        </children>
                                        <opaqueInsets>
                                           <Insets />
@@ -535,7 +600,7 @@
                                     <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="20.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="110.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
                                        <children>
                                           <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="121.0" text="Passar" />
-                                          <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="121.0" text="Comprar" />
+                                          <Button fx:id="buyPiece" mnemonicParsing="false" onAction="#buyPiece" prefHeight="43.0" prefWidth="121.0" text="Comprar" />
                                        </children>
                                     </FlowPane>
                                  </children>
