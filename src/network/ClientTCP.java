@@ -37,8 +37,8 @@ public class ClientTCP {
     }
 
     public static void main(String[] args) throws Exception {
-        String ip = myObj.nextLine();
-        int port = myObj.nextInt();
+        String ip = "192.168.56.1";
+        int port = 62179;
         ClientTCP client = new ClientTCP(
                 InetAddress.getByName(ip), port);
 

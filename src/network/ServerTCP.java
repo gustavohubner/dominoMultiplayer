@@ -42,7 +42,7 @@ public class ServerTCP {
         return this.server.getLocalPort();
     }
     public static void main(String[] args) throws Exception {
-        ServerTCP app = new ServerTCP(args[0]);
+        ServerTCP app = new ServerTCP("192.168.56.1");
         System.out.println("\r\nRunning Server: " + 
                 "Host=" + app.getSocketAddress().getHostAddress() + 
                 " Port=" + app.getPort());
