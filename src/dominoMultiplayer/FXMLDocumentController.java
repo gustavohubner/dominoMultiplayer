@@ -93,10 +93,22 @@ public class FXMLDocumentController implements Initializable {
 
     @FXML
     private GridPane dominoGrid;
+
+    @FXML
+    private GridPane menuScreen;
+    @FXML
+    private GridPane matchMaking;
+    @FXML
+    private GridPane gameScreen;
+
     @FXML
     private FlowPane playerHand;
     @FXML
     private Button buyPiece;
+    @FXML
+    private Button hostBtn;
+    @FXML
+    private Button joinBtn;
 
     public FXMLDocumentController() {
 
@@ -142,7 +154,7 @@ public class FXMLDocumentController implements Initializable {
                 if (!game.end()) {
                     if (selecIndex != -1 && selecSide != -1) {
                         boolean b = game.addPiece(selecSide, hash, selecIndex);
-                        System.out.println("add resp: " + (b ? "sucesse" : "fail"));
+                        System.out.println("add resp: " + (b ? "sucess" : "fail"));
                         selecIndex = -1;
                     }
                 }
@@ -157,7 +169,7 @@ public class FXMLDocumentController implements Initializable {
     public void buyPiece() {
         boolean bougth = game.buyPiece(hash);
         drawGrid(game);
-        System.out.println("bougth: "+ bougth);
+        System.out.println("bougth: " + bougth);
         buyPiece.setDisable(!bougth);
     }
 
@@ -239,5 +251,29 @@ public class FXMLDocumentController implements Initializable {
     public void clickPlayerHand(MouseEvent event) {
         Text target = (Text) event.getTarget();
         System.out.println("Index piece: " + pieceGrid.indexOf(target));
+    }
+
+    public void joinBtn() {
+        System.out.println("dominoMultiplayer.FXMLDocumentController.joinBtn()");
+        menuScreen.setVisible(false);
+        matchMaking.setVisible(true);
+    }
+
+    public void hostBtn() {
+        System.out.println("dominoMultiplayer.FXMLDocumentController.hostBtn()");
+        menuScreen.setVisible(false);
+        matchMaking.setVisible(true);
+    }
+
+    public void startBtn() {
+        System.out.println("dominoMultiplayer.FXMLDocumentController.startBtn()");
+        matchMaking.setVisible(false);
+        gameScreen.setVisible(true);
+    }
+
+    public void quitBtn() {
+        System.out.println("dominoMultiplayer.FXMLDocumentController.quitBtn()");
+        matchMaking.setVisible(false);
+        menuScreen.setVisible(true);
     }
 }

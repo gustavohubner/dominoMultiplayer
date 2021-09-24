@@ -19,7 +19,6 @@ public class ClientTCP {
 
     private Socket socket;
     private Scanner scanner;
-    static Scanner myObj = new Scanner(System.in);
 
     private ClientTCP(InetAddress serverAddress, int serverPort) throws Exception {
         this.socket = new Socket(serverAddress, serverPort);
@@ -37,11 +36,10 @@ public class ClientTCP {
     }
 
     public static void main(String[] args) throws Exception {
-        String ip = "192.168.56.1";
-        int port = 62179;
-        ClientTCP client = new ClientTCP(
-                InetAddress.getByName(ip), port);
+        String ip = "localhost";
+        int port = 42069;
 
+        ClientTCP client = new ClientTCP( InetAddress.getByName(ip), port);
         System.out.println("\r\nConnected to Server: " + client.socket.getInetAddress());
         client.start();
     }

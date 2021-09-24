@@ -17,10 +17,7 @@ import java.net.Socket;
 public class ServerTCP {
         private ServerSocket server;
     public ServerTCP(String ipAddress) throws Exception {
-        if (ipAddress != null && !ipAddress.isEmpty()) 
-          this.server = new ServerSocket(0, 1, InetAddress.getByName(ipAddress));
-        else 
-          this.server = new ServerSocket(0, 1, InetAddress.getLocalHost());
+        this.server = new ServerSocket(42069,1,InetAddress.getByName(ipAddress));
     }
     private void listen() throws Exception {
         String data = null;
@@ -42,7 +39,8 @@ public class ServerTCP {
         return this.server.getLocalPort();
     }
     public static void main(String[] args) throws Exception {
-        ServerTCP app = new ServerTCP("192.168.56.1");
+        System.out.println("\r\nTeste");
+        ServerTCP app = new ServerTCP("localhost");
         System.out.println("\r\nRunning Server: " + 
                 "Host=" + app.getSocketAddress().getHostAddress() + 
                 " Port=" + app.getPort());

@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -16,602 +17,697 @@
 
 <AnchorPane id="AnchorPane" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #0f9660;" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dominoMultiplayer.FXMLDocumentController">
    <children>
-      <AnchorPane prefHeight="690.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <GridPane fx:id="menuScreen" prefHeight="231.0" prefWidth="457.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
          <children>
-            <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-              <columnConstraints>
-                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                <RowConstraints maxHeight="-Infinity" minHeight="136.0" prefHeight="136.0" vgrow="SOMETIMES" />
-              </rowConstraints>
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="DOMINO" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+               <font>
+                  <Font name="Comic Sans MS" size="96.0" />
+               </font>
+               <effect>
+                  <DropShadow height="20.0" offsetY="10.0" radius="4.5" spread="1.0" width="0.0" />
+               </effect>
+            </Text>
+            <TextField fx:id="text" alignment="CENTER" maxWidth="-Infinity" prefWidth="900.0" promptText="IP ADDRESS" text="localhost" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+               <font>
+                  <Font size="50.0" />
+               </font>
+            </TextField>
+            <FlowPane alignment="TOP_CENTER" columnHalignment="CENTER" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="2" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
                <children>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
+                  <Button fx:id="joinBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#joinBtn" prefWidth="200.0" text="Join">
+                     <FlowPane.margin>
+                        <Insets left="25.0" right="25.0" />
+                     </FlowPane.margin>
+                     <font>
+                        <Font size="33.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="hostBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#hostBtn" prefWidth="200.0" text="Host">
+                     <FlowPane.margin>
+                        <Insets left="25.0" right="25.0" />
+                     </FlowPane.margin>
+                     <font>
+                        <Font size="33.0" />
+                     </font>
+                  </Button>
+               </children>
+            </FlowPane>
+         </children>
+      </GridPane>
+      <GridPane fx:id="matchMaking" prefHeight="720.0" prefWidth="1280.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Match Making" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+               <font>
+                  <Font name="Comic Sans MS" size="96.0" />
+               </font>
+               <effect>
+                  <DropShadow height="20.0" offsetY="10.0" radius="4.5" spread="1.0" width="0.0" />
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="CROSSHAIR" />
+               </cursor>
+            </Text>
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="1 / 4 players" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+               <font>
+                  <Font name="Comic Sans MS" size="96.0" />
+               </font>
+               <effect>
+                  <DropShadow height="20.0" offsetY="10.0" radius="4.5" spread="1.0" width="0.0" />
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="CROSSHAIR" />
+               </cursor>
+            </Text>
+            <FlowPane alignment="TOP_CENTER" columnHalignment="CENTER" GridPane.rowIndex="2">
+               <children>
+                  <Button fx:id="startBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#startBtn" prefWidth="200.0" text="Start">
+                     <FlowPane.margin>
+                        <Insets left="25.0" right="25.0" />
+                     </FlowPane.margin>
+                     <font>
+                        <Font size="33.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="quitBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#quitBtn" prefWidth="200.0" text="Quit">
+                     <FlowPane.margin>
+                        <Insets left="25.0" right="25.0" />
+                     </FlowPane.margin>
+                     <font>
+                        <Font size="33.0" />
+                     </font>
+                  </Button>
+               </children>
+            </FlowPane>
+         </children>
+      </GridPane>
+      <GridPane fx:id="gameScreen" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints maxHeight="-Infinity" minHeight="136.0" prefHeight="136.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
+               <children>
+                  <GridPane id="dominoGrid" fx:id="dominoGrid" alignment="CENTER" minWidth="-Infinity" prefHeight="400.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="0.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="0.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="0.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="0.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="0.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="0.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="0.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="0.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="0.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="0.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="0.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints maxHeight="100.0" minHeight="100.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="100.0" minHeight="100.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="100.0" minHeight="100.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="100.0" minHeight="100.0" vgrow="SOMETIMES" />
+                        <RowConstraints maxHeight="100.0" minHeight="100.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <cursor>
+                        <Cursor fx:constant="DEFAULT" />
+                     </cursor>
                      <children>
-                        <GridPane id="dominoGrid" fx:id="dominoGrid" alignment="CENTER" minWidth="-Infinity" prefHeight="400.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <Text boundsType="VISUAL" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="JUSTIFY" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="124.0" layoutY="140.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🁜" textAlignment="JUSTIFY" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="200.0" layoutY="140.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🁜" textAlignment="JUSTIFY" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="300.0" layoutY="140.0" stroke="BLACK" strokeLineCap="ROUND" strokeLineJoin="BEVEL" strokeMiterLimit="0.0" strokeType="INSIDE" strokeWidth="0.0" text="🂄" textAlignment="JUSTIFY" GridPane.columnIndex="3">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="400.0" layoutY="140.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="4">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets bottom="48.0" />
+                           </GridPane.margin>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="500.0" layoutY="140.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="5">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets bottom="48.0" />
+                           </GridPane.margin>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="600.0" layoutY="140.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="6">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets bottom="48.0" />
+                           </GridPane.margin>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="700.0" layoutY="140.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="JUSTIFY" GridPane.columnIndex="7" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="800.0" layoutY="140.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🁜" textAlignment="JUSTIFY" GridPane.columnIndex="8" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="900.0" layoutY="140.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🁜" textAlignment="JUSTIFY" GridPane.columnIndex="9" GridPane.halignment="CENTER" GridPane.valignment="TOP">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="1000.0" layoutY="140.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="JUSTIFY" GridPane.columnIndex="10">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="1100.0" layoutY="140.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="JUSTIFY" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="100.0" layoutY="240.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="200.0" layoutY="240.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="300.0" layoutY="240.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="JUSTIFY" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="400.0" layoutY="240.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="4" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="500.0" layoutY="240.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="5" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="600.0" layoutY="240.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="6" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="700.0" layoutY="240.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="JUSTIFY" GridPane.columnIndex="7" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="800.0" layoutY="240.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="8" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="900.0" layoutY="240.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="9" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="1000.0" layoutY="240.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="JUSTIFY" GridPane.columnIndex="10" GridPane.rowIndex="1">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="1100.0" layoutY="240.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="JUSTIFY" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="100.0" layoutY="340.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="200.0" layoutY="340.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="300.0" layoutY="340.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🁜" textAlignment="JUSTIFY" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets bottom="48.0" />
+                           </GridPane.margin>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="400.0" layoutY="340.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🁜" textAlignment="JUSTIFY" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets bottom="48.0" />
+                           </GridPane.margin>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="500.0" layoutY="340.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🁜" textAlignment="JUSTIFY" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets bottom="48.0" />
+                           </GridPane.margin>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="600.0" layoutY="340.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🁜" textAlignment="JUSTIFY" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets bottom="48.0" />
+                           </GridPane.margin>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="700.0" layoutY="340.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🁜" textAlignment="JUSTIFY" GridPane.columnIndex="7" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets bottom="48.0" />
+                           </GridPane.margin>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="800.0" layoutY="340.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="8" GridPane.rowIndex="2">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="900.0" layoutY="340.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="9" GridPane.rowIndex="2">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="1000.0" layoutY="340.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="JUSTIFY" GridPane.columnIndex="10" GridPane.rowIndex="2">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="1100.0" layoutY="340.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="JUSTIFY" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="100.0" layoutY="440.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="200.0" layoutY="440.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="300.0" layoutY="440.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="3" GridPane.rowIndex="3">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="400.0" layoutY="440.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="4" GridPane.rowIndex="3">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="500.0" layoutY="440.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="5" GridPane.rowIndex="3">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="600.0" layoutY="440.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="6" GridPane.rowIndex="3">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="700.0" layoutY="440.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="7" GridPane.rowIndex="3">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="800.0" layoutY="440.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="8" GridPane.rowIndex="3">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="900.0" layoutY="440.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="9" GridPane.rowIndex="3">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="1000.0" layoutY="440.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="JUSTIFY" GridPane.columnIndex="10" GridPane.rowIndex="3">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="1100.0" layoutY="440.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="JUSTIFY" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="100.0" layoutY="540.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🁜" textAlignment="JUSTIFY" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="200.0" layoutY="540.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🁜" textAlignment="JUSTIFY" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="300.0" layoutY="540.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🁜" textAlignment="JUSTIFY" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="400.0" layoutY="540.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🁜" textAlignment="JUSTIFY" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="500.0" layoutY="540.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🁜" textAlignment="JUSTIFY" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="600.0" layoutY="540.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🁜" textAlignment="JUSTIFY" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="700.0" layoutY="540.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🁜" textAlignment="JUSTIFY" GridPane.columnIndex="7" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="800.0" layoutY="540.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🁜" textAlignment="JUSTIFY" GridPane.columnIndex="8" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="900.0" layoutY="540.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🁜" textAlignment="JUSTIFY" GridPane.columnIndex="9" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Text>
+                        <Text boundsType="VISUAL" layoutX="1000.0" layoutY="540.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="JUSTIFY" GridPane.columnIndex="10" GridPane.rowIndex="4">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                           <GridPane.margin>
+                              <Insets />
+                           </GridPane.margin>
+                        </Text>
+                     </children>
+                     <effect>
+                        <DropShadow height="16.0" offsetY="6.0" radius="3.5" spread="1.0" width="0.0">
+                           <color>
+                              <Color red="1.0" green="1.0" blue="1.0" />
+                           </color>
+                        </DropShadow>
+                     </effect>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                  </GridPane>
+               </children>
+            </AnchorPane>
+          <AnchorPane maxHeight="-Infinity" minHeight="136.0" minWidth="0.0" prefHeight="136.0" prefWidth="370.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER">
+               <children>
+                  <TitledPane collapsible="false" layoutY="-36.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="172.0" prefWidth="1280.0" text="Jogador 1" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <content>
+                        <GridPane prefHeight="106.0" prefWidth="1278.0">
                           <columnConstraints>
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="0.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="0.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="0.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="0.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="0.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="0.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="0.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="0.0" />
-                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="0.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="0.0" />
-                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="0.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="1002.0" />
+                            <ColumnConstraints hgrow="NEVER" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" />
                           </columnConstraints>
                           <rowConstraints>
-                            <RowConstraints maxHeight="100.0" minHeight="100.0" vgrow="SOMETIMES" />
-                            <RowConstraints maxHeight="100.0" minHeight="100.0" vgrow="SOMETIMES" />
-                            <RowConstraints maxHeight="100.0" minHeight="100.0" vgrow="SOMETIMES" />
-                              <RowConstraints maxHeight="100.0" minHeight="100.0" vgrow="SOMETIMES" />
-                              <RowConstraints maxHeight="100.0" minHeight="100.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
-                           <cursor>
-                              <Cursor fx:constant="DEFAULT" />
-                           </cursor>
                            <children>
-                              <Text boundsType="VISUAL" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="JUSTIFY" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="124.0" layoutY="140.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🁜" textAlignment="JUSTIFY" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="200.0" layoutY="140.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🁜" textAlignment="JUSTIFY" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="300.0" layoutY="140.0" stroke="BLACK" strokeLineCap="ROUND" strokeLineJoin="BEVEL" strokeMiterLimit="0.0" strokeType="INSIDE" strokeWidth="0.0" text="🂄" textAlignment="JUSTIFY" GridPane.columnIndex="3">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="400.0" layoutY="140.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="4">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets bottom="48.0" />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="500.0" layoutY="140.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="5">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets bottom="48.0" />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="600.0" layoutY="140.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="6">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets bottom="48.0" />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="700.0" layoutY="140.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="JUSTIFY" GridPane.columnIndex="7" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="800.0" layoutY="140.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🁜" textAlignment="JUSTIFY" GridPane.columnIndex="8" GridPane.halignment="CENTER" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="900.0" layoutY="140.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🁜" textAlignment="JUSTIFY" GridPane.columnIndex="9" GridPane.halignment="CENTER" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="1000.0" layoutY="140.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="JUSTIFY" GridPane.columnIndex="10">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="1100.0" layoutY="140.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="JUSTIFY" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="100.0" layoutY="240.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="200.0" layoutY="240.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="2" GridPane.rowIndex="1">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="300.0" layoutY="240.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="JUSTIFY" GridPane.columnIndex="3" GridPane.rowIndex="1">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="400.0" layoutY="240.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="4" GridPane.rowIndex="1">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="500.0" layoutY="240.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="5" GridPane.rowIndex="1">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="600.0" layoutY="240.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="6" GridPane.rowIndex="1">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="700.0" layoutY="240.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="JUSTIFY" GridPane.columnIndex="7" GridPane.halignment="RIGHT" GridPane.rowIndex="1" GridPane.valignment="CENTER">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="800.0" layoutY="240.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="8" GridPane.rowIndex="1">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="900.0" layoutY="240.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="9" GridPane.rowIndex="1">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="1000.0" layoutY="240.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="JUSTIFY" GridPane.columnIndex="10" GridPane.rowIndex="1">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="1100.0" layoutY="240.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="JUSTIFY" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="100.0" layoutY="340.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="200.0" layoutY="340.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="2" GridPane.rowIndex="2">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="300.0" layoutY="340.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🁜" textAlignment="JUSTIFY" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets bottom="48.0" />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="400.0" layoutY="340.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🁜" textAlignment="JUSTIFY" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets bottom="48.0" />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="500.0" layoutY="340.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🁜" textAlignment="JUSTIFY" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets bottom="48.0" />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="600.0" layoutY="340.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🁜" textAlignment="JUSTIFY" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets bottom="48.0" />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="700.0" layoutY="340.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🁜" textAlignment="JUSTIFY" GridPane.columnIndex="7" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="TOP">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets bottom="48.0" />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="800.0" layoutY="340.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="8" GridPane.rowIndex="2">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="900.0" layoutY="340.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="9" GridPane.rowIndex="2">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="1000.0" layoutY="340.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="JUSTIFY" GridPane.columnIndex="10" GridPane.rowIndex="2">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="1100.0" layoutY="340.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="JUSTIFY" GridPane.halignment="RIGHT" GridPane.rowIndex="3" GridPane.valignment="CENTER">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="100.0" layoutY="440.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="200.0" layoutY="440.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="2" GridPane.rowIndex="3">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="300.0" layoutY="440.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="3" GridPane.rowIndex="3">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="400.0" layoutY="440.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="4" GridPane.rowIndex="3">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="500.0" layoutY="440.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="5" GridPane.rowIndex="3">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="600.0" layoutY="440.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="6" GridPane.rowIndex="3">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="700.0" layoutY="440.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="7" GridPane.rowIndex="3">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="800.0" layoutY="440.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="8" GridPane.rowIndex="3">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="900.0" layoutY="440.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="9" GridPane.rowIndex="3">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="1000.0" layoutY="440.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="JUSTIFY" GridPane.columnIndex="10" GridPane.rowIndex="3">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="1100.0" layoutY="440.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="JUSTIFY" GridPane.halignment="RIGHT" GridPane.rowIndex="4" GridPane.valignment="CENTER">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="100.0" layoutY="540.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🁜" textAlignment="JUSTIFY" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="200.0" layoutY="540.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🁜" textAlignment="JUSTIFY" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="300.0" layoutY="540.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🁜" textAlignment="JUSTIFY" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="400.0" layoutY="540.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🁜" textAlignment="JUSTIFY" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="500.0" layoutY="540.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🁜" textAlignment="JUSTIFY" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="600.0" layoutY="540.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🁜" textAlignment="JUSTIFY" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="700.0" layoutY="540.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🁜" textAlignment="JUSTIFY" GridPane.columnIndex="7" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="800.0" layoutY="540.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🁜" textAlignment="JUSTIFY" GridPane.columnIndex="8" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="900.0" layoutY="540.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🁜" textAlignment="JUSTIFY" GridPane.columnIndex="9" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="BOTTOM">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </Text>
-                              <Text boundsType="VISUAL" layoutX="1000.0" layoutY="540.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="JUSTIFY" GridPane.columnIndex="10" GridPane.rowIndex="4">
-                                 <font>
-                                    <Font name="Lucida Calligraphy Italic" size="108.0" />
-                                 </font>
-                                 <GridPane.margin>
-                                    <Insets />
-                                 </GridPane.margin>
-                              </Text>
-                           </children>
-                           <effect>
-                              <DropShadow height="16.0" offsetY="6.0" radius="3.5" spread="1.0" width="0.0">
-                                 <color>
-                                    <Color red="1.0" green="1.0" blue="1.0" />
-                                 </color>
-                              </DropShadow>
-                           </effect>
-                           <opaqueInsets>
-                              <Insets />
-                           </opaqueInsets>
-                        </GridPane>
-                     </children>
-                  </AnchorPane>
-                <AnchorPane maxHeight="-Infinity" minHeight="136.0" minWidth="0.0" prefHeight="136.0" prefWidth="370.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER">
-                     <children>
-                        <TitledPane collapsible="false" layoutY="-36.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="172.0" prefWidth="1280.0" text="Jogador 1" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <content>
-                              <GridPane prefHeight="106.0" prefWidth="1278.0">
-                                <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="10.0" prefWidth="1002.0" />
-                                  <ColumnConstraints hgrow="NEVER" maxWidth="200.0" minWidth="200.0" prefWidth="200.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
+                              <FlowPane id="playerHand" fx:id="playerHand" alignment="CENTER_LEFT" hgap="10.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="90.0" prefWidth="1056.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
                                  <children>
-                                    <FlowPane id="playerHand" fx:id="playerHand" alignment="CENTER_LEFT" hgap="10.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="90.0" prefWidth="1056.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
-                                       <children>
-                                          <Text boundsType="VISUAL" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
-                                             <font>
-                                                <Font name="Lucida Calligraphy Italic" size="80.0" />
-                                             </font>
-                                             <FlowPane.margin>
-                                                <Insets />
-                                             </FlowPane.margin>
-                                          </Text>
-                                          <Text boundsType="VISUAL" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
-                                             <font>
-                                                <Font name="Lucida Calligraphy Italic" size="80.0" />
-                                             </font>
-                                             <FlowPane.margin>
-                                                <Insets />
-                                             </FlowPane.margin>
-                                          </Text>
-                                          <Text boundsType="VISUAL" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
-                                             <font>
-                                                <Font name="Lucida Calligraphy Italic" size="80.0" />
-                                             </font>
-                                             <FlowPane.margin>
-                                                <Insets />
-                                             </FlowPane.margin>
-                                          </Text>
-                                          <Text boundsType="VISUAL" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
-                                             <font>
-                                                <Font name="Lucida Calligraphy Italic" size="80.0" />
-                                             </font>
-                                             <FlowPane.margin>
-                                                <Insets />
-                                             </FlowPane.margin>
-                                          </Text>
-                                          <Text boundsType="VISUAL" layoutY="95.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
-                                             <font>
-                                                <Font name="Lucida Calligraphy Italic" size="80.0" />
-                                             </font>
-                                             <FlowPane.margin>
-                                                <Insets />
-                                             </FlowPane.margin>
-                                          </Text>
-                                          <Text boundsType="VISUAL" layoutY="243.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
-                                             <font>
-                                                <Font name="Lucida Calligraphy Italic" size="80.0" />
-                                             </font>
-                                             <FlowPane.margin>
-                                                <Insets />
-                                             </FlowPane.margin>
-                                          </Text>
-                                          <Text boundsType="VISUAL" layoutY="243.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
-                                             <font>
-                                                <Font name="Lucida Calligraphy Italic" size="80.0" />
-                                             </font>
-                                             <FlowPane.margin>
-                                                <Insets />
-                                             </FlowPane.margin>
-                                          </Text>
-                                          <Text boundsType="VISUAL" layoutY="243.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
-                                             <font>
-                                                <Font name="Lucida Calligraphy Italic" size="80.0" />
-                                             </font>
-                                             <FlowPane.margin>
-                                                <Insets />
-                                             </FlowPane.margin>
-                                          </Text>
-                                          <Text boundsType="VISUAL" layoutX="336.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
-                                             <font>
-                                                <Font name="Lucida Calligraphy Italic" size="80.0" />
-                                             </font>
-                                          </Text>
-                                          <Text boundsType="VISUAL" layoutX="385.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
-                                             <font>
-                                                <Font name="Lucida Calligraphy Italic" size="80.0" />
-                                             </font>
-                                          </Text>
-                                          <Text boundsType="VISUAL" layoutX="-7.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
-                                             <font>
-                                                <Font name="Lucida Calligraphy Italic" size="80.0" />
-                                             </font>
-                                          </Text>
-                                          <Text boundsType="VISUAL" layoutX="42.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
-                                             <font>
-                                                <Font name="Lucida Calligraphy Italic" size="80.0" />
-                                             </font>
-                                          </Text>
-                                          <Text boundsType="VISUAL" layoutX="91.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
-                                             <font>
-                                                <Font name="Lucida Calligraphy Italic" size="80.0" />
-                                             </font>
-                                          </Text>
-                                          <Text boundsType="VISUAL" layoutX="140.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
-                                             <font>
-                                                <Font name="Lucida Calligraphy Italic" size="80.0" />
-                                             </font>
-                                          </Text>
-                                          <Text boundsType="VISUAL" layoutX="189.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
-                                             <font>
-                                                <Font name="Lucida Calligraphy Italic" size="80.0" />
-                                             </font>
-                                          </Text>
-                                          <Text boundsType="VISUAL" layoutX="238.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
-                                             <font>
-                                                <Font name="Lucida Calligraphy Italic" size="80.0" />
-                                             </font>
-                                          </Text>
-                                          <Text boundsType="VISUAL" layoutX="287.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
-                                             <font>
-                                                <Font name="Lucida Calligraphy Italic" size="80.0" />
-                                             </font>
-                                          </Text>
-                                          <Text boundsType="VISUAL" layoutX="336.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
-                                             <font>
-                                                <Font name="Lucida Calligraphy Italic" size="80.0" />
-                                             </font>
-                                          </Text>
-                                          <Text boundsType="VISUAL" layoutX="385.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
-                                             <font>
-                                                <Font name="Lucida Calligraphy Italic" size="80.0" />
-                                             </font>
-                                          </Text>
-                                          <Text boundsType="VISUAL" layoutX="434.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
-                                             <font>
-                                                <Font name="Lucida Calligraphy Italic" size="80.0" />
-                                             </font>
-                                          </Text>
-                                          <Text boundsType="VISUAL" layoutX="924.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
-                                             <font>
-                                                <Font name="Lucida Calligraphy Italic" size="80.0" />
-                                             </font>
-                                          </Text>
-                                       </children>
-                                       <opaqueInsets>
+                                    <Text boundsType="VISUAL" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="Lucida Calligraphy Italic" size="80.0" />
+                                       </font>
+                                       <FlowPane.margin>
                                           <Insets />
-                                       </opaqueInsets>
-                                    </FlowPane>
-                                    <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="20.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="110.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
-                                       <children>
-                                          <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="121.0" text="Passar" />
-                                          <Button fx:id="buyPiece" mnemonicParsing="false" onAction="#buyPiece" prefHeight="43.0" prefWidth="121.0" text="Comprar" />
-                                       </children>
-                                    </FlowPane>
+                                       </FlowPane.margin>
+                                    </Text>
+                                    <Text boundsType="VISUAL" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="Lucida Calligraphy Italic" size="80.0" />
+                                       </font>
+                                       <FlowPane.margin>
+                                          <Insets />
+                                       </FlowPane.margin>
+                                    </Text>
+                                    <Text boundsType="VISUAL" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="Lucida Calligraphy Italic" size="80.0" />
+                                       </font>
+                                       <FlowPane.margin>
+                                          <Insets />
+                                       </FlowPane.margin>
+                                    </Text>
+                                    <Text boundsType="VISUAL" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="Lucida Calligraphy Italic" size="80.0" />
+                                       </font>
+                                       <FlowPane.margin>
+                                          <Insets />
+                                       </FlowPane.margin>
+                                    </Text>
+                                    <Text boundsType="VISUAL" layoutY="95.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="Lucida Calligraphy Italic" size="80.0" />
+                                       </font>
+                                       <FlowPane.margin>
+                                          <Insets />
+                                       </FlowPane.margin>
+                                    </Text>
+                                    <Text boundsType="VISUAL" layoutY="243.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="Lucida Calligraphy Italic" size="80.0" />
+                                       </font>
+                                       <FlowPane.margin>
+                                          <Insets />
+                                       </FlowPane.margin>
+                                    </Text>
+                                    <Text boundsType="VISUAL" layoutY="243.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="Lucida Calligraphy Italic" size="80.0" />
+                                       </font>
+                                       <FlowPane.margin>
+                                          <Insets />
+                                       </FlowPane.margin>
+                                    </Text>
+                                    <Text boundsType="VISUAL" layoutY="243.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="Lucida Calligraphy Italic" size="80.0" />
+                                       </font>
+                                       <FlowPane.margin>
+                                          <Insets />
+                                       </FlowPane.margin>
+                                    </Text>
+                                    <Text boundsType="VISUAL" layoutX="336.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="Lucida Calligraphy Italic" size="80.0" />
+                                       </font>
+                                    </Text>
+                                    <Text boundsType="VISUAL" layoutX="385.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="Lucida Calligraphy Italic" size="80.0" />
+                                       </font>
+                                    </Text>
+                                    <Text boundsType="VISUAL" layoutX="-7.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="Lucida Calligraphy Italic" size="80.0" />
+                                       </font>
+                                    </Text>
+                                    <Text boundsType="VISUAL" layoutX="42.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="Lucida Calligraphy Italic" size="80.0" />
+                                       </font>
+                                    </Text>
+                                    <Text boundsType="VISUAL" layoutX="91.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="Lucida Calligraphy Italic" size="80.0" />
+                                       </font>
+                                    </Text>
+                                    <Text boundsType="VISUAL" layoutX="140.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="Lucida Calligraphy Italic" size="80.0" />
+                                       </font>
+                                    </Text>
+                                    <Text boundsType="VISUAL" layoutX="189.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="Lucida Calligraphy Italic" size="80.0" />
+                                       </font>
+                                    </Text>
+                                    <Text boundsType="VISUAL" layoutX="238.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="Lucida Calligraphy Italic" size="80.0" />
+                                       </font>
+                                    </Text>
+                                    <Text boundsType="VISUAL" layoutX="287.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="Lucida Calligraphy Italic" size="80.0" />
+                                       </font>
+                                    </Text>
+                                    <Text boundsType="VISUAL" layoutX="336.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="Lucida Calligraphy Italic" size="80.0" />
+                                       </font>
+                                    </Text>
+                                    <Text boundsType="VISUAL" layoutX="385.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="Lucida Calligraphy Italic" size="80.0" />
+                                       </font>
+                                    </Text>
+                                    <Text boundsType="VISUAL" layoutX="434.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="Lucida Calligraphy Italic" size="80.0" />
+                                       </font>
+                                    </Text>
+                                    <Text boundsType="VISUAL" layoutX="924.0" layoutY="83.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="🂄" textAlignment="CENTER">
+                                       <font>
+                                          <Font name="Lucida Calligraphy Italic" size="80.0" />
+                                       </font>
+                                    </Text>
                                  </children>
-                              </GridPane>
-                           </content>
-                        </TitledPane>
-                     </children>
-                  </AnchorPane>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                              </FlowPane>
+                              <FlowPane alignment="CENTER" columnHalignment="CENTER" hgap="20.0" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="110.0" prefWidth="300.0" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.hgrow="NEVER" GridPane.vgrow="NEVER">
+                                 <children>
+                                    <Button mnemonicParsing="false" prefHeight="43.0" prefWidth="121.0" text="Passar" />
+                                    <Button fx:id="buyPiece" mnemonicParsing="false" onAction="#buyPiece" prefHeight="43.0" prefWidth="121.0" text="Comprar" />
+                                 </children>
+                              </FlowPane>
+                           </children>
+                        </GridPane>
+                     </content>
+                  </TitledPane>
                </children>
-            </GridPane>
+            </AnchorPane>
          </children>
-      </AnchorPane>
+      </GridPane>
    </children>
 </AnchorPane>
