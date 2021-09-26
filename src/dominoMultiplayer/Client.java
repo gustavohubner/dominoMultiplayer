@@ -59,22 +59,22 @@ public class Client extends Application{
         playerTurn = dis.readInt();
         System.out.println("Turn of player: " + playerTurn);
         
-        // game = (Domino) ois.readObject();
+        start();
     }
 
     private void start() throws IOException, ClassNotFoundException {
         while (true) {
-            if (playerTurn == playerId) {
-              // turno p/ jogar
-              
-              //Buttons.enable
-            } else {
-              //espera
-              
-              //Buttons.disable
-              // = dis.readInt();
-              playerTurn = dis.readInt();
-            }
+          if (playerTurn == playerId) {
+            System.out.println("asjuhdisaujd");
+            dos.writeInt(0);
+            dos.writeUTF("");
+          } else {
+            int code = dis.readInt();
+            String action = dis.readUTF();
+            
+            receiveAction(code, action);
+          }
+
         }
     }
 

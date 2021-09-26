@@ -40,7 +40,7 @@ public class Server {
           String clientAddress = client.getInetAddress().getHostAddress();
           System.out.println("\r\nNew connection from " + clientAddress);
 
-          ClientHandler c = new ClientHandler(client, numPlayers);
+          ClientHandler c = new ClientHandler(client);
           playerList.enqueue(c);
 
           numPlayers++;
@@ -49,12 +49,28 @@ public class Server {
 
         Domino game = new Domino();
         int playerTurn = 0;
+        int i = 0;
         
         while (!playerList.isEmpty()) {
+          System.out.println("dequeue");
           ClientHandler ch = playerList.dequeue();
+
+          int hash = game.addPlayer();
+          ch.setId(hash);
+          ch.setGame(game);
+          
+          if (i == 0) {
+            playerTurn = hash;
+            i++;
+          }
+          ch.setTurn(playerTurn);
+
           Thread t = new Thread(ch);
           t.start();
+          System.out.println("rodou thread");
         }
+        
+        numPlayers = 0;
       }
         
     }

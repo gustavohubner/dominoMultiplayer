@@ -17,10 +17,11 @@ public class ClientHandler implements Runnable{
   private DataInputStream dis;
   private DataOutputStream dos;
   private int playerId;
+  private Domino game;
+  private int turn;
   
-  public ClientHandler(Socket s, int id) {
+  public ClientHandler(Socket s) {
     socket = s;
-    playerId = id;
     
     try {
       dis = new DataInputStream(socket.getInputStream());
@@ -30,9 +31,24 @@ public class ClientHandler implements Runnable{
     }
   }
   
+  public void setId(int hash) {
+    this.playerId = hash;
+  }
+  
+  public void setGame(Domino game) {
+    this.game = game;
+  }
+  
+  public void setTurn(int turn) {
+    this.turn = turn;
+  }
+  
   public void run() {
     try {
       dos.writeInt(playerId);
+      dos.writeInt(turn);
+      
+      
     } catch (IOException ex) {
       System.err.println("Falha no ClientHandler run()");
     }
