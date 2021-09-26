@@ -12,10 +12,10 @@ import java.net.Socket;
  *
  * @author EmersonPL
  */
-public class ClientHandler implements Runnable{
+public class ClientHandler{
   private Socket socket;
-  private DataInputStream dis;
-  private DataOutputStream dos;
+  public DataInputStream dis;
+  public DataOutputStream dos;
   private int playerId;
   private Domino game;
   private int turn;
@@ -35,22 +35,18 @@ public class ClientHandler implements Runnable{
     this.playerId = hash;
   }
   
-  public void setGame(Domino game) {
-    this.game = game;
-  }
-  
   public void setTurn(int turn) {
     this.turn = turn;
   }
   
-  public void run() {
-    try {
-      dos.writeInt(playerId);
-      dos.writeInt(turn);
-      
-      
-    } catch (IOException ex) {
-      System.err.println("Falha no ClientHandler run()");
-    }
+  public int getPlayerId() {
+    return playerId;
   }
+  
+  /*public void receiveAction(int code, String action) {
+    if (code == 0) {
+      dos.writeInt(code);
+      dos.writeUTF(action);
+    }
+  }*/
 }

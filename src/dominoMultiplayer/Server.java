@@ -14,6 +14,7 @@ import java.net.Socket;
 import java.util.List;
 import java.util.Vector;
 import network.ClientHandler;
+import network.ServerGame;
 import sun.misc.Queue;
 /**
  *
@@ -50,6 +51,7 @@ public class Server {
         Domino game = new Domino();
         int playerTurn = 0;
         int i = 0;
+        ClientHandler[] clients = new ClientHandler[MAX_PLAYERS];
         
         while (!playerList.isEmpty()) {
           System.out.println("dequeue");
@@ -57,19 +59,15 @@ public class Server {
 
           int hash = game.addPlayer();
           ch.setId(hash);
-          ch.setGame(game);
           
           if (i == 0) {
             playerTurn = hash;
-            i++;
           }
-          ch.setTurn(playerTurn);
-
-          Thread t = new Thread(ch);
-          t.start();
-          System.out.println("rodou thread");
+          clients[i] = ch;
+          i++;
         }
         
+        ServerGame sg = new ServerGame(clients, game);
         numPlayers = 0;
       }
         
