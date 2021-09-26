@@ -7,6 +7,8 @@ package dominoMultiplayer;
 
 import dominoMultiplayer.classes.Domino;
 import java.awt.event.ActionListener;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -27,8 +29,8 @@ import javax.swing.JButton;
 public class Client extends Application{
 
     private Socket socket;
-    private ObjectInputStream ois;
-    private ObjectOutputStream oos;
+    private DataInputStream dis;
+    private DataOutputStream dos;
     
     private int playerId;
     private int playerTurn;
@@ -48,16 +50,16 @@ public class Client extends Application{
     private Client(InetAddress serverAddress, int serverPort) throws Exception {
         this.socket = new Socket(serverAddress, serverPort);
         
-        ois = new ObjectInputStream(socket.getInputStream());
-        oos = new ObjectOutputStream(socket.getOutputStream());
+        dis = new DataInputStream(socket.getInputStream());
+        dos = new DataOutputStream(socket.getOutputStream());
         
-        playerId = ois.readInt();
+        playerId = dis.readInt();
         System.out.println("Connected as player " + playerId);
         
-        playerTurn = ois.readInt();
+        playerTurn = dis.readInt();
         System.out.println("Turn of player: " + playerTurn);
         
-        game = (Domino) ois.readObject();
+        // game = (Domino) ois.readObject();
     }
 
     private void start() throws IOException, ClassNotFoundException {
@@ -70,8 +72,8 @@ public class Client extends Application{
               //espera
               
               //Buttons.disable
-              game = (Domino) ois.readObject();
-              playerTurn = ois.readInt();
+              // = dis.readInt();
+              playerTurn = dis.readInt();
             }
         }
     }
@@ -85,5 +87,19 @@ public class Client extends Application{
         client.start();
         
         launch(args);
+    }
+    
+    private void sendAction(int code, String action) throws IOException{
+      dos.writeUTF(code + " " + action);
+    }
+    
+    private void receiveAction(int code, String action) {
+      if (code == 0) { // pass
+        playerTurn = Integer.parseInt(action);
+      } else if (code == 1) { // compra
+        System.out.print("asjkdhaksj");
+      } else if (code == 2) { // place
+        // Insere a peça, recebendo ela em action
+      }
     }
 }
