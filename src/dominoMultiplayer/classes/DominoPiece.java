@@ -59,7 +59,7 @@ public class DominoPiece {
 
     @Override
     public String toString() {
-        return pieceString[a][b];
+        return "[" + a + ";" + b + "]";
     }
 
 }

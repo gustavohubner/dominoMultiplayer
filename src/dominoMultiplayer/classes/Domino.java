@@ -121,4 +121,12 @@ public class Domino {
         return false;
     }
 
+    public String getPlayerNumString() {
+        String str = playerPieces.size()+"";
+        for (List<DominoPiece> player : playerPieces){
+            str += "\n"+player.size();
+        }
+        return str;
+    }
+
 }

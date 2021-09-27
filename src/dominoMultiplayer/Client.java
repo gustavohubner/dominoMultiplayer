@@ -6,16 +6,16 @@
 package dominoMultiplayer;
 
 import dominoMultiplayer.classes.Domino;
-import java.awt.event.ActionListener;
+import dominoMultiplayer.classes.DominoPiece;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.LinkedList;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
 import javafx.event.ActionEvent;
@@ -23,106 +23,148 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javax.swing.JButton;
 
-import java.util.concurrent.TimeUnit;
+public class Client implements Runnable {
 
-//TODO: Tem que resolver uns try/catch ai no meio
-public class Client extends Application{
-
-    private Socket socket;
+    Socket socket;
     private DataInputStream dis;
     private DataOutputStream dos;
-    
-    private int playerId;
-    private int hashPlayerTurn;
-    
-    private Domino game;
-    
+
+    private int hash;
+    private String hand;
+
+    FXMLDocumentController gui;
+
     @Override
-    public void start(Stage stage) throws Exception {
-      /*
-      Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-        
-      Scene scene = new Scene(root);
+    public void run() {
+        while (true) {
+            try {
+                if (!socket.isClosed()) {
+                    String command = dis.readUTF();
 
-      stage.setScene(scene);
-      stage.show();
-      */
-      
-      while (true) {
-        if (hashPlayerTurn == playerId) {
-          //isso aqui é só pra ler
-          TimeUnit.SECONDS.sleep(5);
-          
-          sendAction(0, "");
-        } else {
-          int code = dis.readInt();
-          String action = dis.readUTF();
-          
-          System.out.println("Cliente recebeu Code " + code + " Action: " + action);
+                    processComand(command);
+                } else {
+                    return;
+                }
+                /*if (hashPlayerTurn == playerId) {
+                //isso aqui é só pra ler
+                TimeUnit.SECONDS.sleep(5);
 
-          receiveAction(code, action);
+                sendAction("PASS", "");
+                } else {
+                String code = dis.readUTF();
+                String action = dis.readUTF();
+
+                System.out.println("Cliente recebeu Code " + code + " Action: " + action);
+
+                processResponse(code, action);
+                }*/
+            } catch (IOException ex) {
+                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-      }
     }
 
-    private Client(InetAddress serverAddress, int serverPort) throws Exception {
-        this.socket = new Socket(serverAddress, serverPort);
-        
-        dis = new DataInputStream(socket.getInputStream());
-        dos = new DataOutputStream(socket.getOutputStream());
-        
-        playerId = dis.readInt();
-        System.out.println("Connected as player " + playerId);
-        
-        hashPlayerTurn = dis.readInt();
-        System.out.println("Turn of player: " + hashPlayerTurn);
-        
-        //start();
+    Client(InetAddress serverAddress, int serverPort, FXMLDocumentController gui) {
+
+        try {
+            this.socket = new Socket(serverAddress, serverPort);
+            this.gui = gui;
+
+            dis = new DataInputStream(socket.getInputStream());
+            dos = new DataOutputStream(socket.getOutputStream());
+
+            gui.connectionSucess();
+        } catch (IOException ex) {
+            gui.connectionError(serverAddress.toString());
+        }
     }
 
-    /*private void start() throws IOException, ClassNotFoundException {
-        
+    Client(InetAddress serverAddress, int serverPort) {
+        try {
+            this.socket = new Socket(serverAddress, serverPort);
+
+            dis = new DataInputStream(socket.getInputStream());
+            dos = new DataOutputStream(socket.getOutputStream());
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    */
 
     public static void main(String[] args) throws Exception {
         String ip = "localhost";
         int port = 42069;
-        
-        //TODO: Aqui precisa colocar pra instanciar o cliente só depois de clicar em join, etc...
 
-        Client client = new Client( InetAddress.getByName(ip), port);
+        //TODO: Aqui precisa colocar pra instanciar o cliente só depois de clicar em join, etc...
+        Client client = new Client(InetAddress.getByName(ip), port);
         System.out.println("\r\nConnected to Server: " + client.socket.getInetAddress());
-        
-        
-        // TODO: Nem sei oq deveria ser aqui
-        Stage stage = null;
-        client.start(stage);
-        
-        
+
+        client.run();
+
         //launch(args);
     }
-    
-    private void sendAction(int code, String action) throws IOException{
-      dos.writeInt(code);
-      dos.writeUTF(action);
-      
-      // precisa receber a resposta do server
-      code = dis.readInt();
-      action = dis.readUTF();
-      
-      receiveAction(code, action);
+
+    private void processComand(String command) {
+        Scanner scanner = new Scanner(command);
+        String line = getNextLine(scanner);
+        boolean myTurn = false;
+
+        if (line.equals("SETUP {")) {
+            hash = Integer.parseInt(getNextLine(scanner));
+            hand = getNextLine(scanner);
+
+            if (gui != null) {
+                gui.setHash(hash);
+                gui.setHandString(hand);
+            }
+
+        }
+
+        if (line.equals("QUEUE {")) {
+            int queueSize = Integer.parseInt(getNextLine(scanner));
+
+            if (gui != null) {
+                gui.setQueue(queueSize);
+            }
+        }
+
+        if (line.equals("START {")) {
+
+            myTurn = Boolean.parseBoolean(getNextLine(scanner));
+            // TODO: tambem é mandado o num de player e pecas de cada um
+//             int playernum = Integer.parseInt(getNextLine(scanner));
+            gui.startGame();
+            gui.setMyTurn(myTurn);
+        }
+
+        scanner.close();
     }
-    
-    private void receiveAction(int code, String action) {
-      if (code == 0) { // pass
-        hashPlayerTurn = Integer.parseInt(action);
-      } else if (code == 1) { // compra
-        System.out.print("asjkdhaksj");
-      } else if (code == 2) { // place
-        // Insere a peça, recebendo ela em action
-      }
+
+    private String getNextLine(Scanner scanner) {
+        if (scanner.hasNextLine()) {
+            return scanner.nextLine();
+        }
+        return null;
     }
+
+    LinkedList<DominoPiece> getPlayerHand() {
+        LinkedList<DominoPiece> list = new LinkedList<>();
+        char[] chars = hand.toCharArray();
+//        for (char c :chars){
+//            if (c != '{' || c != ','){
+//                
+//            }
+//        }
+
+        return list;
+    }
+
+    public void close() {
+        try {
+            socket.close();
+        } catch (Exception ex) {
+            System.out.println("dominoMultiplayer.Client.close() Error");
+        }
+    }
+
 }

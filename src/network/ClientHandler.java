@@ -12,40 +12,38 @@ import java.net.Socket;
  *
  * @author EmersonPL
  */
-public class ClientHandler{
-  private Socket socket;
-  public DataInputStream dis;
-  public DataOutputStream dos;
-  private int playerId;
-  private Domino game;
-  private int turn;
-  
-  public ClientHandler(Socket s) {
-    socket = s;
-    
-    try {
-      dis = new DataInputStream(socket.getInputStream());
-      dos = new DataOutputStream(socket.getOutputStream());
-    } catch (IOException ex) {
-      System.err.println("Falha no ClientHandler");
+public class ClientHandler {
+
+    public Socket socket;
+    public DataInputStream dis;
+    public DataOutputStream dos;
+    private int playerHash;
+
+    public ClientHandler(Socket s) {
+        socket = s;
+
+        try {
+            dis = new DataInputStream(socket.getInputStream());
+            dos = new DataOutputStream(socket.getOutputStream());
+        } catch (IOException ex) {
+            System.err.println("Falha no ClientHandler");
+        }
     }
-  }
-  
-  public void setId(int hash) {
-    this.playerId = hash;
-  }
-  
-  public void setTurn(int turn) {
-    this.turn = turn;
-  }
-  
-  public int getPlayerId() {
-    return playerId;
-  }
-  
-  
-  //funções p/ ler o pedido do cliente, e passar p/ o serverGame
-  /*public int readCode() throws IOException{
+
+    public void sendToClient(String command) throws IOException {
+        dos.writeUTF(command);
+    }
+
+    public void setHash(int hash) {
+        this.playerHash = hash;
+    }
+
+    public int getPlayerHash() {
+        return playerHash;
+    }
+
+    //funções p/ ler o pedido do cliente, e passar p/ o serverGame
+    /*public int readCode() throws IOException{
     int code = dis.readInt();
     return code;
   }
@@ -53,8 +51,7 @@ public class ClientHandler{
     String action = dis.readUTF();
     return action;
   }*/
-  
-  /*public void receiveAction(int code, String action) {
+ /*public void receiveAction(int code, String action) {
     if (code == 0) {
       dos.writeInt(code);
       dos.writeUTF(action);

@@ -9,122 +9,103 @@ import java.util.List;
  *
  * @author EmersonPL
  */
-public class ServerGame implements Runnable{
-  private Domino game;
-  private int playerTurn;
-  private int lastPlayed;
-  private ClientHandler[] clients;
-  private DataInputStream dis;
-  
-  private int code;
-  private String action;
-  
-  public ServerGame(ClientHandler[] clients, Domino game, int startPlayer) {
-    this.clients = clients;
-    this.game = game;
-    this.playerTurn = getStartingPlayer(startPlayer);
-  }
-  
-  public void setGame(Domino game) {
-    this.game = game;
-  }
-  
-  public void setTurn(int turn) {
-    this.playerTurn = turn;
-  }
-  
-  public int getStartingPlayer(int start) {
-    for (int i = 0; i < clients.length; i++) {
-      if (clients[i].getPlayerId() == start) {
-        return i;
-      }
+public class ServerGame implements Runnable {
+
+    private Domino game;
+    private int playerTurn;
+    private int lastPlayed;
+    private ClientHandler[] clients;
+    private DataInputStream dis;
+
+    private String code;
+    private String action;
+
+    public ServerGame(ClientHandler[] clients, Domino game) {
+        this.clients = clients;
+        this.game = game;
+        this.playerTurn = 0;
     }
-    
-    return 0;
-  }
-  
-  private DataInputStream getDISCurrentTurn() {
-    return clients[playerTurn].dis;
-  }
-  
-  public void run() {
-    System.out.println("Começou a rodar");
-    try {
-      for (ClientHandler client : clients) {
-        client.dos.writeInt(client.getPlayerId());
-        client.dos.writeInt(Integer.parseInt(clientTurn())); //TODO: Mudar pra não precisar ficar trocando Int -> Str -> Int
-      }
-      
-      while (true) {
-        dis = getDISCurrentTurn();
-        code = dis.readInt();
-        action = dis.readUTF();       
-        lastPlayed = getPlayerHash(playerTurn);
-        action = receiveAction(code, action);
-    
-        sendAction(code, action);
-      }
-    } catch (IOException ex) {
-      System.err.println("Erro em ServerGame.run()");
-      System.err.println(ex);
+
+    public void setGame(Domino game) {
+        this.game = game;
     }
-  }
-  
-  private int getPlayerHash(int turn) {
-    return clients[turn].getPlayerId();
-  }
-  
-  private void passTurn() {
-    playerTurn = (playerTurn + 1) % clients.length;
-  }
-  
-  private String clientTurn() {
-    return Integer.toString(clients[playerTurn].getPlayerId());
-  }
-  
-  private int getSidePlayed(String action) {
-    action = action.split(" ")[0];
-    return Integer.parseInt(action);
-  }
-  
-  private int getPieceIndex(String action) {
-    action = action.split(" ")[1];
-    return Integer.parseInt(action);
-  }
-  
-  private void sendAction(int code, String action) throws IOException{
-    for (ClientHandler client : clients) {
-      // if (client.getPlayerId() == lastPlayed) continue;
-      
-      client.dos.writeInt(code);
-      client.dos.writeUTF(action);
+
+    public void setTurn(int turn) {
+        this.playerTurn = turn;
     }
-  }
-  
-  private String receiveAction(int code, String action) {
-    int playerHash = clients[playerTurn].getPlayerId();
-    switch (code) {
-      case 0:
-        //pass
-        System.out.println("Player: " + playerHash + " Passou o turno");
-        passTurn();
-        action = clientTurn();
-        break;
-      case 1:
-        game.buyPiece(playerHash);
-        System.out.println("Player: " + playerHash + " Comprou peça");
-        break;
-      case 2:
-        int side = getSidePlayed(action);
-        int pieceIndex = getPieceIndex(action);
-        game.addPiece(code, playerHash, code);
-        System.out.println("Player: " + clients[playerTurn].getPlayerId() + " jogou: " + action);
-        passTurn();
-        break;
-      default:
-        break;
+
+    private DataInputStream getDISCurrentTurn() {
+        return clients[playerTurn].dis;
     }
-    
-    return action;
-  } 
+
+    public void run() {
+        System.out.println("Starting game ...");
+        try {
+            for (ClientHandler client : clients) {
+                int hash = client.getPlayerHash();
+                // Começa partida
+                client.sendToClient("START {"
+                        + "\n" + (clientTurn().equals(hash + ""))
+                        + "\n" + game.getPlayerNumString()
+                        + "\n}");
+                // COMANDO INICIAL
+                client.sendToClient("SETUP {"
+                        + "\n" + hash
+                        + "\n" + game.getPlayerHand(client.getPlayerHash())
+                        + "\n}");
+
+            }
+            System.out.println("Game started!");
+            while (!game.end()) {
+                // jogo ...
+                break;
+            }
+        } catch (IOException ex) {
+            System.err.println("Erro em ServerGame.run()");
+            System.err.println(ex);
+        }
+    }
+
+    private int getPlayerHash(int turn) {
+        return clients[turn].getPlayerHash();
+    }
+
+    private void passTurn() {
+        playerTurn = (playerTurn + 1) % clients.length;
+    }
+
+    private String clientTurn() {
+        return Integer.toString(clients[playerTurn].getPlayerHash());
+    }
+
+    private void sendAction(String code, String action) throws IOException {
+        for (ClientHandler client : clients) {
+            // if (client.getPlayerId() == lastPlayed) continue;
+            client.dos.writeUTF(code + " " + action);
+        }
+    }
+
+    private String executeCommand(String code, String action) {
+        switch (code) {
+            case "PASS":
+                //pass
+                System.out.println("Player: " + clients[playerTurn].getPlayerHash() + " Passou o turno");
+                passTurn();
+                action = clientTurn();
+                break;
+            case "BUY":
+                //buy Piece
+                System.out.println("Player: " + clients[playerTurn].getPlayerHash() + " Comprou peça");
+                break;
+            case "PLACE":
+                //jogou
+                System.out.println("Player: " + clients[playerTurn].getPlayerHash() + " jogou: " + action);
+                passTurn();
+                break;
+            default:
+                break;
+        }
+
+        return action;
+    }
 }
