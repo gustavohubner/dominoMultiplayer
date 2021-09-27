@@ -120,6 +120,18 @@
          <children>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
                <children>
+                  <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <top>
+                        <Text fx:id="turnIndicator" boundsType="VISUAL" fill="WHITE" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Turn" textAlignment="JUSTIFY" BorderPane.alignment="CENTER">
+                           <font>
+                              <Font name="Arial" size="34.0" />
+                           </font>
+                           <BorderPane.margin>
+                              <Insets top="20.0" />
+                           </BorderPane.margin>
+                        </Text>
+                     </top>
+                  </BorderPane>
                   <GridPane id="dominoGrid" fx:id="dominoGrid" alignment="CENTER" minWidth="-Infinity" prefHeight="400.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="100.0" minWidth="100.0" prefWidth="0.0" />
@@ -532,18 +544,6 @@
                         <Insets />
                      </opaqueInsets>
                   </GridPane>
-                  <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                     <top>
-                        <Text fx:id="turnIndicator" boundsType="VISUAL" fill="WHITE" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Your Turn" textAlignment="JUSTIFY" BorderPane.alignment="CENTER">
-                           <font>
-                              <Font name="Arial" size="34.0" />
-                           </font>
-                           <BorderPane.margin>
-                              <Insets top="20.0" />
-                           </BorderPane.margin>
-                        </Text>
-                     </top>
-                  </BorderPane>
                </children>
             </AnchorPane>
           <AnchorPane maxHeight="-Infinity" minHeight="136.0" minWidth="0.0" prefHeight="136.0" prefWidth="370.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER">

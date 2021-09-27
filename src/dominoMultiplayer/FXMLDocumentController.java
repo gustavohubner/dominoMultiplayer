@@ -42,6 +42,8 @@ public class FXMLDocumentController implements Initializable {
     private int selecIndex = -1;
     private int selecSide = 0;
 
+    private boolean canBuy = true;
+
     List<DominoPiece> left;
     List<DominoPiece> right;
     DominoPiece start;
@@ -142,15 +144,13 @@ public class FXMLDocumentController implements Initializable {
         matchMaking.setVisible(false);
 
         pieceGrid = dominoGrid.getChildren();
-//        game = new Domino();
-//        hash = game.addPlayer();
         clearScreen();
 
         playerHand.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 selecIndex = -1;
-//                drawGrid(game);
+                drawGrid();
                 if (mouseEvent.getTarget().getClass() == Text.class) {
                     Text t = (Text) mouseEvent.getTarget();
                     System.out.println("" + t.getText() + " index:" + playerHand.getChildren().indexOf(t) + " side: " + selecSide);
@@ -176,18 +176,21 @@ public class FXMLDocumentController implements Initializable {
                     }
                 }
 
-//                if (!game.end()) {
-//                    if (selecIndex != -1 && selecSide != -1) {
-//                        boolean b = game.addPiece(selecSide, hash, selecIndex);
-//                        System.out.println("add resp: " + (b ? "sucess" : "fail"));
-//                        selecIndex = -1;
-//                    }
-//                }
-//                drawGrid(game);
+                if (selecIndex != -1) {
+                    if (start == null) {
+                        System.out.println("ADD SENT" + selecIndex + " " + selecSide);
+                        client.addPiece(selecIndex, 1);
+                    } else {
+                        if (selecSide != -1) {
+                            System.out.println("ADD SENT" + selecIndex + " " + selecSide);
+                            client.addPiece(selecIndex, selecSide);
+                        }
+                    }
+                }
+                selecIndex = -1;
+                drawGrid();
             }
         });
-//        drawGrid(game);
-
     }
 
     @FXML
@@ -313,11 +316,7 @@ public class FXMLDocumentController implements Initializable {
     }
 
     public void connectionError(String address) {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Connection Error");
-        alert.setHeaderText(null);
-        alert.setContentText("Error while trying to connect to " + address);
-        alert.showAndWait();
+        showAlert("Connection Error", "Error while trying to connect to " + address);
     }
 
     public void connectionSucess() {
@@ -332,8 +331,8 @@ public class FXMLDocumentController implements Initializable {
 
     public void setHandString(String handStr) {
         this.hand = StringToDominoList(handStr);
-        System.out.println("" + hand);
-        drawGrid();
+        System.out.println("dominoMultiplayer.FXMLDocumentController.setHandString() - draw()");
+
     }
 
     public void setTableString(String start, String left, String right) {
@@ -349,15 +348,16 @@ public class FXMLDocumentController implements Initializable {
     }
 
     public void setMyTurn(boolean myTurn) {
-        System.err.println("MY TURN? " + myTurn);
-        buyPiece.setDisable(!myTurn);
+        System.err.println("MY TURN: " + myTurn);
+        if (canBuy) {
+            buyPiece.setDisable(!myTurn);
+        }
         passBtn.setDisable(!myTurn);
         playerHand.setDisable(!myTurn);
         turnIndicator.setVisible(myTurn);
     }
 
     private LinkedList<DominoPiece> StringToDominoList(String str) {
-        System.out.println("conver string: " + str);
         LinkedList<DominoPiece> list = new LinkedList<>();
         char c[] = str.toCharArray();
         for (int i = 0; i < c.length; i++) {
@@ -368,5 +368,18 @@ public class FXMLDocumentController implements Initializable {
             }
         }
         return list;
+    }
+
+    public void bankEmpty() {
+        buyPiece.setDisable(true);
+        this.canBuy = false;
+    }
+
+    void showAlert(String title, String text) {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(text);
+        alert.showAndWait();
     }
 }

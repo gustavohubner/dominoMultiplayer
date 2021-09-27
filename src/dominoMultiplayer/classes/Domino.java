@@ -36,6 +36,8 @@ public class Domino {
         }
         Collections.shuffle(pieces, new Random(System.currentTimeMillis()));
         table = new DominoTable();
+        
+//        table.setStartPiece(pieces.pop());
 
         System.out.println("" + players.toString());
     }

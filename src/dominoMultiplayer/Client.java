@@ -115,20 +115,40 @@ public class Client implements Runnable {
 
         if (line.equals("UPDATE {")) {
             System.out.println("UPDATE RECEIVED!");
-            String start, left, right, hand;
+            String start, left, right, handStr;
             start = getNextLine(scanner);
             left = getNextLine(scanner);
             right = getNextLine(scanner);
-            hand = getNextLine(scanner);
+            handStr = getNextLine(scanner);
 
             // ...
+            System.err.println("Bool");
             boolean turn = Boolean.parseBoolean(getNextLine(scanner));
 
+            System.err.println("table");
             gui.setTableString(start, left, right);
-            gui.setHandString(hand);
+
+            System.err.println("hand");
+            gui.setHandString(handStr);
+
+            System.err.println("turn");
             gui.setMyTurn(turn);
+            gui.drawGrid();
         }
 
+        if (line.equals("UPDATEHAND {")) {
+            String newHand;
+            boolean sucess;
+            sucess = Boolean.parseBoolean(getNextLine(scanner));
+            System.out.println("UPDATEHAND RECEIVED: " + (sucess ? "Success" : "Fail"));
+            if (sucess) {
+                newHand = getNextLine(scanner);
+                gui.setHandString(newHand);
+            } else {
+                gui.showAlert("Atention", "No more pieces to buy!");
+            }
+            gui.drawGrid();
+        }
         scanner.close();
     }
 
@@ -147,7 +167,7 @@ public class Client implements Runnable {
         }
     }
 
-    void buyPiece() {
+    public void buyPiece() {
         try {
             sendToServer("BUY {"
                     + "\n" + hash
@@ -157,7 +177,7 @@ public class Client implements Runnable {
         }
     }
 
-    void pass() {
+    public void pass() {
         try {
             sendToServer("PASS {"
                     + "\n" + hash
@@ -169,6 +189,18 @@ public class Client implements Runnable {
 
     public void sendToServer(String command) throws IOException {
         dos.writeUTF(command);
+    }
+
+    void addPiece(int selecIndex, int selecSide) {
+        try {
+            sendToServer("ADD {"
+                    + "\n" + hash
+                    + "\n" + selecIndex
+                    + "\n" + selecSide
+                    + "\n}");
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
 }

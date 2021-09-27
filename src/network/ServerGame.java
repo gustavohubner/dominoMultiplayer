@@ -3,7 +3,6 @@ package network;
 import dominoMultiplayer.classes.Domino;
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,9 +15,7 @@ public class ServerGame implements Runnable {
 
     private Domino game;
     private int playerTurn;
-    private int lastPlayed;
     private ServerClientHandler[] clients;
-    private DataInputStream dis;
 
     public ServerGame(ServerClientHandler[] clients, Domino game) {
         this.clients = clients;
@@ -65,14 +62,13 @@ public class ServerGame implements Runnable {
                         boolean done;
                         do {
                             String clientCommand = client.dis.readUTF();
-                            System.err.println("Client " + client.getPlayerHash() + ": " + clientCommand);
+                            System.out.println("Client " + client.getPlayerHash() + ": " + clientCommand);
 
-                            done = processCommand(clientCommand);
+                            done = processCommand(clientCommand, client);
                         } while (!done);
 
-                        if (done) {
-                            updateGame();
-                        }
+                        passTurn();
+                        updateGame();
                         break;
                     }
                 }
@@ -97,44 +93,47 @@ public class ServerGame implements Runnable {
         return clients[playerTurn].getPlayerHash();
     }
 
-    private void sendAction(String code, String action) throws IOException {
-        for (ServerClientHandler client : clients) {
-            // if (client.getPlayerId() == lastPlayed) continue;
-            client.dos.writeUTF(code + " " + action);
-        }
-    }
-
     // retorna true se acaba rodada do jogador
-    private boolean processCommand(String command) {
+    private boolean processCommand(String command, ServerClientHandler cl) {
         Scanner scanner = new Scanner(command);
         String line = getNextLine(scanner);
         boolean myTurn = false;
 
         if (line.equals("PASS {")) {
             int hash = Integer.parseInt(getNextLine(scanner));
+//            if (hash == clientTurn()) {
             passTurn();
             return true;
+//            }
         }
-//        switch (code) {
-//            case "PASS":
-//                //pass
-//                System.out.println("Player: " + clients[playerTurn].getPlayerHash() + " Passou o turno");
-//                passTurn();
-//                break;
-//            case "BUY":
-//                //buy Piece
-//                System.out.println("Player: " + clients[playerTurn].getPlayerHash() + " Comprou peça");
-//                break;
-//            case "PLACE":
-//                //jogou
-//                System.out.println("Player: " + clients[playerTurn].getPlayerHash() + " jogou: " + action);
-//                passTurn();
-//                break;
-//            default:
-//                break;
-//        }
-//
-//        return action;
+
+        if (line.equals("BUY {")) {
+            int hash = Integer.parseInt(getNextLine(scanner));
+            boolean sucess = game.buyPiece(hash);
+            updatePlayerHand(cl, sucess);
+            return false;
+        }
+
+        if (line.equals("ADD {")) {
+            try {
+                int hash = Integer.parseInt(getNextLine(scanner));
+                int index = Integer.parseInt(getNextLine(scanner));
+                int side = Integer.parseInt(getNextLine(scanner));
+
+                boolean result = game.addPiece(side, hash, index);
+
+                if (!result) {
+                    cl.sendToClient("ADDFAIL {\n}");
+                }
+//                } else {
+                updatePlayerHand(cl, true);
+//                }
+
+                return result;
+            } catch (IOException ex) {
+                Logger.getLogger(ServerGame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
         return false;
     }
 
@@ -154,13 +153,24 @@ public class ServerGame implements Runnable {
                         + "\n" + game.getRightSide()
                         + "\n" + game.getPlayerHand(cl.getPlayerHash())
                         + "\n" + (clientTurn() == cl.getPlayerHash())
-                        + "\n" // mais coisas ...
                         + "\n}";
-                System.out.println("Update to " + cl.getPlayerHash() +"\n"+command);
+                System.out.println("Update to " + cl.getPlayerHash() + ":\n" + command);
                 cl.sendToClient(command);
             } catch (IOException ex) {
                 Logger.getLogger(ServerGame.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+    }
+
+    private void updatePlayerHand(ServerClientHandler cl, boolean sucess) {
+        try {
+            String command = "UPDATEHAND {"
+                    + "\n" + sucess
+                    + "\n" + (sucess ? game.getPlayerHand(cl.getPlayerHash()) + "\n}" : "\n}");
+            System.out.println("UpdateHand to " + cl.getPlayerHash() + ":\n" + command);
+            cl.sendToClient(command);
+        } catch (IOException ex) {
+            Logger.getLogger(ServerGame.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
