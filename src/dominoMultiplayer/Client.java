@@ -5,24 +5,14 @@
  */
 package dominoMultiplayer;
 
-import dominoMultiplayer.classes.Domino;
-import dominoMultiplayer.classes.DominoPiece;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Application;
-import static javafx.application.Application.launch;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 
 public class Client implements Runnable {
 
@@ -46,19 +36,6 @@ public class Client implements Runnable {
                 } else {
                     return;
                 }
-                /*if (hashPlayerTurn == playerId) {
-                //isso aqui é só pra ler
-                TimeUnit.SECONDS.sleep(5);
-
-                sendAction("PASS", "");
-                } else {
-                String code = dis.readUTF();
-                String action = dis.readUTF();
-
-                System.out.println("Cliente recebeu Code " + code + " Action: " + action);
-
-                processResponse(code, action);
-                }*/
             } catch (IOException ex) {
                 Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -129,12 +106,27 @@ public class Client implements Runnable {
         }
 
         if (line.equals("START {")) {
-
             myTurn = Boolean.parseBoolean(getNextLine(scanner));
             // TODO: tambem é mandado o num de player e pecas de cada um
 //             int playernum = Integer.parseInt(getNextLine(scanner));
             gui.startGame();
             gui.setMyTurn(myTurn);
+        }
+
+        if (line.equals("UPDATE {")) {
+            System.out.println("UPDATE RECEIVED!");
+            String start, left, right, hand;
+            start = getNextLine(scanner);
+            left = getNextLine(scanner);
+            right = getNextLine(scanner);
+            hand = getNextLine(scanner);
+
+            // ...
+            boolean turn = Boolean.parseBoolean(getNextLine(scanner));
+
+            gui.setTableString(start, left, right);
+            gui.setHandString(hand);
+            gui.setMyTurn(turn);
         }
 
         scanner.close();
@@ -147,24 +139,36 @@ public class Client implements Runnable {
         return null;
     }
 
-    LinkedList<DominoPiece> getPlayerHand() {
-        LinkedList<DominoPiece> list = new LinkedList<>();
-        char[] chars = hand.toCharArray();
-//        for (char c :chars){
-//            if (c != '{' || c != ','){
-//                
-//            }
-//        }
-
-        return list;
-    }
-
     public void close() {
         try {
             socket.close();
         } catch (Exception ex) {
             System.out.println("dominoMultiplayer.Client.close() Error");
         }
+    }
+
+    void buyPiece() {
+        try {
+            sendToServer("BUY {"
+                    + "\n" + hash
+                    + "\n}");
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    void pass() {
+        try {
+            sendToServer("PASS {"
+                    + "\n" + hash
+                    + "\n}");
+        } catch (IOException ex) {
+            Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    public void sendToServer(String command) throws IOException {
+        dos.writeUTF(command);
     }
 
 }

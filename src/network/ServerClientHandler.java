@@ -1,25 +1,22 @@
 package network;
 
-import dominoMultiplayer.classes.Domino;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 /**
  *
  * @author EmersonPL
  */
-public class ClientHandler {
+public class ServerClientHandler {
 
     public Socket socket;
     public DataInputStream dis;
     public DataOutputStream dos;
     private int playerHash;
 
-    public ClientHandler(Socket s) {
+    public ServerClientHandler(Socket s) {
         socket = s;
 
         try {

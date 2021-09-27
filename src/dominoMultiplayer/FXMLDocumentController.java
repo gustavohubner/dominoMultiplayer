@@ -32,23 +32,23 @@ import javafx.scene.text.Text;
  * @author gusta
  */
 public class FXMLDocumentController implements Initializable {
-    
+
     private Client client;
     private Server server;
-    
+
     private int X_LIMIT = 11, Y_LIMIT = 5;
     private ObservableList<Node> pieceGrid;
     private int hash;
     private int selecIndex = -1;
     private int selecSide = 0;
-    
+
     List<DominoPiece> left;
     List<DominoPiece> right;
     DominoPiece start;
-    
+
     Text lastLeft;
     Text lastRight;
-    
+
     String[][] horPieces
             = {{"🀱", "🀲", "🀳", "🀴", "🀵", "🀶", "🀷"},
             {"🀸", "🀹", "🀺", "🀻", "🀼", "🀽", "🀾"},
@@ -59,7 +59,7 @@ public class FXMLDocumentController implements Initializable {
             {"🁛", "🁜", "🁝", "🁞", "🁟", "🁠", "🁡"},
             {"🀰"}
             };
-    
+
     String[][] verPieces
             = {{"🁣", "🁤", "🁥", "🁦", "🁧", "🁨", "🁩"},
             {"🁪", "🁫", "🁬", "🁭", "🁮", "🁯", "🁰"},
@@ -69,7 +69,7 @@ public class FXMLDocumentController implements Initializable {
             {"🂆", "🂇", "🂈", "🂉", "🂊", "🂋", "🂌"},
             {"🂍", "🂎", "🂏", "🂐", "🂑", "🂒", "🂓"},
             {"🁢"}};
-    
+
     Integer[][] path = {{2, 6},
     {2, 7},
     {1, 7},
@@ -101,7 +101,7 @@ public class FXMLDocumentController implements Initializable {
     {1, 3},
     {2, 3},
     {2, 4}};
-    
+
     @FXML
     private GridPane dominoGrid;
     @FXML
@@ -110,7 +110,7 @@ public class FXMLDocumentController implements Initializable {
     private GridPane matchMaking;
     @FXML
     private GridPane gameScreen;
-    
+
     @FXML
     private FlowPane playerHand;
     @FXML
@@ -127,25 +127,25 @@ public class FXMLDocumentController implements Initializable {
     private Text queueText;
     @FXML
     private Text turnIndicator;
-    
+
     private LinkedList<DominoPiece> hand;
-    
+
     public FXMLDocumentController() {
-        
+
     }
-    
+
     @FXML
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         gameScreen.setVisible(false);
         menuScreen.setVisible(true);
         matchMaking.setVisible(false);
-        
+
         pieceGrid = dominoGrid.getChildren();
 //        game = new Domino();
 //        hash = game.addPlayer();
         clearScreen();
-        
+
         playerHand.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -155,12 +155,12 @@ public class FXMLDocumentController implements Initializable {
                     Text t = (Text) mouseEvent.getTarget();
                     System.out.println("" + t.getText() + " index:" + playerHand.getChildren().indexOf(t) + " side: " + selecSide);
                     selecIndex = playerHand.getChildren().indexOf(t);
-                    
+
                     t.setFill(javafx.scene.paint.Color.RED);
                 }
             }
         });
-        
+
         dominoGrid.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
@@ -189,15 +189,16 @@ public class FXMLDocumentController implements Initializable {
 //        drawGrid(game);
 
     }
-    
+
     @FXML
     public void buyPiece() {
+        client.buyPiece();
 //        boolean bougth = game.buyPiece(hash);
 //        drawGrid(game);
 //        System.out.println("bougth: " + bougth);
 //        buyPiece.setDisable(!bougth);
     }
-    
+
     public void drawGrid() {
         clearScreen();
         int l_count, r_count;
@@ -207,11 +208,11 @@ public class FXMLDocumentController implements Initializable {
             setPiece(5, 2, start);
             lastRight = ((Text) pieceGrid.get(path[0][1] + path[0][0] * X_LIMIT));
             lastLeft = ((Text) pieceGrid.get(path[path.length - 1][1] + path[path.length - 1][0] * X_LIMIT));
-            
+
             ((Text) pieceGrid.get(path[0][1] + path[0][0] * X_LIMIT)).setText("⇨");
             ((Text) pieceGrid.get(path[path.length - 1][1] + path[path.length - 1][0] * X_LIMIT)).setText("⇦");
         }
-        
+
         if (left != null) {
             for (l_count = 0; l_count < left.size(); l_count++) {
                 DominoPiece p = left.get(l_count);
@@ -226,7 +227,7 @@ public class FXMLDocumentController implements Initializable {
                 lastRight = setPiece(pos[1], pos[0], p);
             }
         }
-        
+
         DominoPiece p;
         for (int i = 0; i < hand.size(); i++) {
             p = hand.get(i);
@@ -234,7 +235,7 @@ public class FXMLDocumentController implements Initializable {
             ((Text) playerHand.getChildren().get(i)).setFill(javafx.scene.paint.Color.BLACK);
         }
     }
-    
+
     private void clearScreen() {
         for (int i = 0; i < pieceGrid.size(); i++) {
             ((Text) (pieceGrid.get(i))).setText(" ");
@@ -243,7 +244,7 @@ public class FXMLDocumentController implements Initializable {
             ((Text) playerHand.getChildren().get(i)).setText(" ");
         }
     }
-    
+
     private Text setPiece(int x, int y, DominoPiece p) {
         ((Text) pieceGrid.get(x + y * X_LIMIT)).setText(horPieces[p.getA()][p.getB()]);
         if (p == null) {
@@ -264,16 +265,16 @@ public class FXMLDocumentController implements Initializable {
         if (x == 0) {
             ((Text) pieceGrid.get(x + y * X_LIMIT)).setText(verPieces[p.getB()][p.getA()]);
         }
-        
+
         return ((Text) pieceGrid.get(x + y * X_LIMIT));
     }
-    
+
     @FXML
     public void clickPlayerHand(MouseEvent event) {
         Text target = (Text) event.getTarget();
         System.out.println("Index piece: " + pieceGrid.indexOf(target));
     }
-    
+
     public void joinBtn() {
         try {
             System.err.println("" + InetAddress.getByName(addressInput.getText()));
@@ -283,12 +284,13 @@ public class FXMLDocumentController implements Initializable {
         } catch (Exception ex) {
             connectionError(addressInput.getText());
         }
-        
+
     }
-    
+
     public void passBtn() {
+        client.pass();
     }
-    
+
     public void hostBtn() {
         try {
             server = new Server(InetAddress.getByName(addressInput.getText()));
@@ -297,19 +299,19 @@ public class FXMLDocumentController implements Initializable {
             connectionError(addressInput.getText());
         }
     }
-    
+
     public void startGame() {
         matchMaking.setVisible(false);
         gameScreen.setVisible(true);
     }
-    
+
     public void quitBtn() {
         client.close();
         System.out.println("dominoMultiplayer.FXMLDocumentController.quitBtn()");
         matchMaking.setVisible(false);
         menuScreen.setVisible(true);
     }
-    
+
     public void connectionError(String address) {
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Connection Error");
@@ -317,39 +319,54 @@ public class FXMLDocumentController implements Initializable {
         alert.setContentText("Error while trying to connect to " + address);
         alert.showAndWait();
     }
-    
+
     public void connectionSucess() {
         System.out.println("Sucessful Conection");
         menuScreen.setVisible(false);
         matchMaking.setVisible(true);
     }
-    
+
     public void setHash(int hash) {
         this.hash = hash;
     }
-    
-    void setHandString(String handStr) {
-        this.hand = new LinkedList<>();
-        char c[] = handStr.toCharArray();
-        for (int i = 0; i < c.length; i++) {
-            if (c[i] == '[' && c[i + 1] != '[') {
-                hand.add(new DominoPiece(Integer.parseInt(c[i + 1] + ""), Integer.parseInt(c[i + 3] + "")));
-            }
-        }
-        System.err.println("" + hand);
+
+    public void setHandString(String handStr) {
+        this.hand = StringToDominoList(handStr);
+        System.out.println("" + hand);
         drawGrid();
-        
     }
-    
-    void setQueue(int queueSize) {
+
+    public void setTableString(String start, String left, String right) {
+        if (!start.endsWith("null")) {
+            this.start = StringToDominoList(start).pop();
+        }
+        this.left = StringToDominoList(left);
+        this.right = StringToDominoList(right);
+    }
+
+    public void setQueue(int queueSize) {
         queueText.setText(queueSize + " / 4 players");
     }
-    
-    void setMyTurn(boolean myTurn) {
-        System.err.println("MY TURN? "+ myTurn);
+
+    public void setMyTurn(boolean myTurn) {
+        System.err.println("MY TURN? " + myTurn);
         buyPiece.setDisable(!myTurn);
         passBtn.setDisable(!myTurn);
         playerHand.setDisable(!myTurn);
         turnIndicator.setVisible(myTurn);
+    }
+
+    private LinkedList<DominoPiece> StringToDominoList(String str) {
+        System.out.println("conver string: " + str);
+        LinkedList<DominoPiece> list = new LinkedList<>();
+        char c[] = str.toCharArray();
+        for (int i = 0; i < c.length; i++) {
+            if (c[i] == '[' && c[i + 1] != '[') {
+                if (c[i + 1] != ']') {
+                    list.add(new DominoPiece(Integer.parseInt(c[i + 1] + ""), Integer.parseInt(c[i + 3] + "")));
+                }
+            }
+        }
+        return list;
     }
 }
