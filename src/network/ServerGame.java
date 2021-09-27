@@ -82,6 +82,16 @@ public class ServerGame implements Runnable{
     return Integer.toString(clients[playerTurn].getPlayerId());
   }
   
+  private int getSidePlayed(String action) {
+    action = action.split(" ")[0];
+    return Integer.parseInt(action);
+  }
+  
+  private int getPieceIndex(String action) {
+    action = action.split(" ")[1];
+    return Integer.parseInt(action);
+  }
+  
   private void sendAction(int code, String action) throws IOException{
     for (ClientHandler client : clients) {
       // if (client.getPlayerId() == lastPlayed) continue;
@@ -92,19 +102,22 @@ public class ServerGame implements Runnable{
   }
   
   private String receiveAction(int code, String action) {
+    int playerHash = clients[playerTurn].getPlayerId();
     switch (code) {
       case 0:
         //pass
-        System.out.println("Player: " + clients[playerTurn].getPlayerId() + " Passou o turno");
+        System.out.println("Player: " + playerHash + " Passou o turno");
         passTurn();
         action = clientTurn();
         break;
       case 1:
-        //buy Piece
-        System.out.println("Player: " + clients[playerTurn].getPlayerId() + " Comprou peça");
+        game.buyPiece(playerHash);
+        System.out.println("Player: " + playerHash + " Comprou peça");
         break;
       case 2:
-        //jogou
+        int side = getSidePlayed(action);
+        int pieceIndex = getPieceIndex(action);
+        game.addPiece(code, playerHash, code);
         System.out.println("Player: " + clients[playerTurn].getPlayerId() + " jogou: " + action);
         passTurn();
         break;
