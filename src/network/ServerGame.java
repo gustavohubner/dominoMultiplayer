@@ -16,6 +16,7 @@ public class ServerGame implements Runnable {
     private Domino game;
     private int playerTurn;
     private ServerClientHandler[] clients;
+    private boolean gameover = false;
 
     public ServerGame(ServerClientHandler[] clients, Domino game) {
         this.clients = clients;
@@ -54,7 +55,7 @@ public class ServerGame implements Runnable {
 
             }
             System.out.println("Game started!");
-            while (!game.end()) {
+            while (!gameover) {
                 // jogo ...
                 // Comandos vindo dos clientes
                 for (ServerClientHandler client : clients) {
@@ -67,6 +68,10 @@ public class ServerGame implements Runnable {
                             done = processCommand(clientCommand, client);
                         } while (!done);
 
+                        int winnerHash = game.checkEnd();
+                        if (winnerHash != -1) {
+                            endGame(winnerHash);
+                        }
                         passTurn();
                         updateGame();
                         break;
@@ -74,6 +79,10 @@ public class ServerGame implements Runnable {
                 }
 
                 // update os players
+            }
+            
+            for(ServerClientHandler cl : clients){
+                cl.socket.close();
             }
         } catch (IOException ex) {
             System.err.println("Erro em ServerGame.run()");
@@ -166,5 +175,20 @@ public class ServerGame implements Runnable {
         } catch (IOException ex) {
             Logger.getLogger(ServerGame.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    private void endGame(int winnerHash) {
+        for (ServerClientHandler cl : clients) {
+            try {
+                String command = "GAMEOVER {"
+                        + "\n" + (cl.getPlayerHash() == winnerHash)
+                        + "\n}";
+                System.out.println("Update to " + cl.getPlayerHash() + ":\n" + command);
+                cl.sendToClient(command);
+            } catch (IOException ex) {
+                Logger.getLogger(ServerGame.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        gameover = true;
     }
 }

@@ -6,10 +6,8 @@
 package dominoMultiplayer;
 
 import dominoMultiplayer.classes.DominoPiece;
-import dominoMultiplayer.classes.Domino;
 import java.net.InetAddress;
 import java.net.URL;
-import java.net.UnknownHostException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -129,6 +127,8 @@ public class FXMLDocumentController implements Initializable {
     private Text queueText;
     @FXML
     private Text turnIndicator;
+    @FXML
+    private Text endGameText;
 
     private LinkedList<DominoPiece> hand;
 
@@ -331,8 +331,6 @@ public class FXMLDocumentController implements Initializable {
 
     public void setHandString(String handStr) {
         this.hand = StringToDominoList(handStr);
-        System.out.println("dominoMultiplayer.FXMLDocumentController.setHandString() - draw()");
-
     }
 
     public void setTableString(String start, String left, String right) {
@@ -381,5 +379,10 @@ public class FXMLDocumentController implements Initializable {
         alert.setHeaderText(null);
         alert.setContentText(text);
         alert.showAndWait();
+    }
+    
+    public void gameover(String text){
+        setMyTurn(false);
+        endGameText.setText(text);
     }
 }

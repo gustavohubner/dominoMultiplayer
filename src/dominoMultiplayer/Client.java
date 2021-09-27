@@ -72,13 +72,10 @@ public class Client implements Runnable {
         String ip = "localhost";
         int port = 42069;
 
-        //TODO: Aqui precisa colocar pra instanciar o cliente só depois de clicar em join, etc...
         Client client = new Client(InetAddress.getByName(ip), port);
         System.out.println("\r\nConnected to Server: " + client.socket.getInetAddress());
 
         client.run();
-
-        //launch(args);
     }
 
     private void processComand(String command) {
@@ -94,7 +91,7 @@ public class Client implements Runnable {
                 gui.setHash(hash);
                 gui.setHandString(hand);
             }
-
+            gui.drawGrid();
         }
 
         if (line.equals("QUEUE {")) {
@@ -120,18 +117,11 @@ public class Client implements Runnable {
             left = getNextLine(scanner);
             right = getNextLine(scanner);
             handStr = getNextLine(scanner);
-
-            // ...
-            System.err.println("Bool");
+            // TODO: tambem é mandado o num de player e pecas de cada um
             boolean turn = Boolean.parseBoolean(getNextLine(scanner));
 
-            System.err.println("table");
             gui.setTableString(start, left, right);
-
-            System.err.println("hand");
             gui.setHandString(handStr);
-
-            System.err.println("turn");
             gui.setMyTurn(turn);
             gui.drawGrid();
         }
@@ -149,6 +139,17 @@ public class Client implements Runnable {
             }
             gui.drawGrid();
         }
+        if (line.equals("GAMEOVER {")) {
+            gui.setMyTurn(false);
+            int winnerHash = Integer.parseInt(getNextLine(scanner));
+            if (winnerHash == hash) {
+                gui.gameover("You won!");
+            } else {
+                gui.gameover("You lost!");
+            }
+
+        }
+
         scanner.close();
     }
 

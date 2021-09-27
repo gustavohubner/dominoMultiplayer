@@ -36,9 +36,8 @@ public class Domino {
         }
         Collections.shuffle(pieces, new Random(System.currentTimeMillis()));
         table = new DominoTable();
-        
-//        table.setStartPiece(pieces.pop());
 
+//        table.setStartPiece(pieces.pop());
         System.out.println("" + players.toString());
     }
 
@@ -46,9 +45,14 @@ public class Domino {
         return pieces.pop();
     }
 
-    public boolean end() {
-        //return pieces.isEmpty();
-        return false;
+    public int checkEnd() {
+        for (int key : players.keySet()) {
+            if (playerPieces.get(players.get(key)).isEmpty()){
+                return key;
+            }
+            break;
+        }
+        return -1;
     }
 
     public int remaining() {
@@ -124,9 +128,9 @@ public class Domino {
     }
 
     public String getPlayerNumString() {
-        String str = playerPieces.size()+"";
-        for (List<DominoPiece> player : playerPieces){
-            str += "\n"+player.size();
+        String str = playerPieces.size() + "";
+        for (List<DominoPiece> player : playerPieces) {
+            str += "\n" + player.size();
         }
         return str;
     }
