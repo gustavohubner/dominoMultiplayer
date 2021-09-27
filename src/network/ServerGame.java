@@ -101,10 +101,7 @@ public class ServerGame implements Runnable {
 
         if (line.equals("PASS {")) {
             int hash = Integer.parseInt(getNextLine(scanner));
-//            if (hash == clientTurn()) {
-            passTurn();
             return true;
-//            }
         }
 
         if (line.equals("BUY {")) {

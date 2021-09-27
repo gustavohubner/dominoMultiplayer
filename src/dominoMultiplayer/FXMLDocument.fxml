@@ -431,6 +431,11 @@
                               <Font name="Lucida Calligraphy Italic" size="108.0" />
                            </font>
                         </Text>
+                        <Text boundsType="VISUAL" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="9" GridPane.rowIndex="3">
+                           <font>
+                              <Font name="Lucida Calligraphy Italic" size="108.0" />
+                           </font>
+                        </Text>
                         <Text boundsType="VISUAL" layoutX="800.0" layoutY="440.0" strokeMiterLimit="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" " textAlignment="JUSTIFY" GridPane.columnIndex="8" GridPane.rowIndex="3">
                            <font>
                               <Font name="Lucida Calligraphy Italic" size="108.0" />
