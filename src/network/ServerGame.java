@@ -125,9 +125,6 @@ public class ServerGame implements Runnable {
                 if (!result) {
                     cl.sendToClient("ADDFAIL {\n}");
                 }
-//                } else {
-                updatePlayerHand(cl, true);
-//                }
 
                 return result;
             } catch (IOException ex) {
