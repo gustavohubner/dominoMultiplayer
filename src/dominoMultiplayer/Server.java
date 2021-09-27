@@ -54,7 +54,6 @@ public class Server {
         ClientHandler[] clients = new ClientHandler[MAX_PLAYERS];
         
         while (!playerList.isEmpty()) {
-          System.out.println("dequeue");
           ClientHandler ch = playerList.dequeue();
 
           int hash = game.addPlayer();
@@ -67,7 +66,11 @@ public class Server {
           i++;
         }
         
-        ServerGame sg = new ServerGame(clients, game);
+        ServerGame sg = new ServerGame(clients, game, playerTurn);
+        
+        Thread t = new Thread(sg);
+        t.start();
+        
         numPlayers = 0;
       }
         

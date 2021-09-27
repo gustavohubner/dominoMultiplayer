@@ -43,6 +43,17 @@ public class ClientHandler{
     return playerId;
   }
   
+  
+  //funções p/ ler o pedido do cliente, e passar p/ o serverGame
+  /*public int readCode() throws IOException{
+    int code = dis.readInt();
+    return code;
+  }
+  public String readAction() throws IOException{
+    String action = dis.readUTF();
+    return action;
+  }*/
+  
   /*public void receiveAction(int code, String action) {
     if (code == 0) {
       dos.writeInt(code);

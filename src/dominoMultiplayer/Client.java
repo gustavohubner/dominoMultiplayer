@@ -25,6 +25,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javax.swing.JButton;
 
+import java.util.concurrent.TimeUnit;
+
 //TODO: Tem que resolver uns try/catch ai no meio
 public class Client extends Application{
 
@@ -33,18 +35,36 @@ public class Client extends Application{
     private DataOutputStream dos;
     
     private int playerId;
-    private int playerTurn;
+    private int hashPlayerTurn;
     
     private Domino game;
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+      /*
+      Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         
-        Scene scene = new Scene(root);
-        
-        stage.setScene(scene);
-        stage.show();
+      Scene scene = new Scene(root);
+
+      stage.setScene(scene);
+      stage.show();
+      */
+      
+      while (true) {
+        if (hashPlayerTurn == playerId) {
+          //isso aqui é só pra ler
+          TimeUnit.SECONDS.sleep(5);
+          
+          sendAction(0, "");
+        } else {
+          int code = dis.readInt();
+          String action = dis.readUTF();
+          
+          System.out.println("Cliente recebeu Code " + code + " Action: " + action);
+
+          receiveAction(code, action);
+        }
+      }
     }
 
     private Client(InetAddress serverAddress, int serverPort) throws Exception {
@@ -56,46 +76,49 @@ public class Client extends Application{
         playerId = dis.readInt();
         System.out.println("Connected as player " + playerId);
         
-        playerTurn = dis.readInt();
-        System.out.println("Turn of player: " + playerTurn);
+        hashPlayerTurn = dis.readInt();
+        System.out.println("Turn of player: " + hashPlayerTurn);
         
-        start();
+        //start();
     }
 
-    private void start() throws IOException, ClassNotFoundException {
-        while (true) {
-          if (playerTurn == playerId) {
-            System.out.println("asjuhdisaujd");
-            dos.writeInt(0);
-            dos.writeUTF("");
-          } else {
-            int code = dis.readInt();
-            String action = dis.readUTF();
-            
-            receiveAction(code, action);
-          }
-
-        }
+    /*private void start() throws IOException, ClassNotFoundException {
+        
     }
+    */
 
     public static void main(String[] args) throws Exception {
         String ip = "localhost";
         int port = 42069;
+        
+        //TODO: Aqui precisa colocar pra instanciar o cliente só depois de clicar em join, etc...
 
         Client client = new Client( InetAddress.getByName(ip), port);
         System.out.println("\r\nConnected to Server: " + client.socket.getInetAddress());
-        client.start();
         
-        launch(args);
+        
+        // TODO: Nem sei oq deveria ser aqui
+        Stage stage = null;
+        client.start(stage);
+        
+        
+        //launch(args);
     }
     
     private void sendAction(int code, String action) throws IOException{
-      dos.writeUTF(code + " " + action);
+      dos.writeInt(code);
+      dos.writeUTF(action);
+      
+      // precisa receber a resposta do server
+      code = dis.readInt();
+      action = dis.readUTF();
+      
+      receiveAction(code, action);
     }
     
     private void receiveAction(int code, String action) {
       if (code == 0) { // pass
-        playerTurn = Integer.parseInt(action);
+        hashPlayerTurn = Integer.parseInt(action);
       } else if (code == 1) { // compra
         System.out.print("asjkdhaksj");
       } else if (code == 2) { // place
