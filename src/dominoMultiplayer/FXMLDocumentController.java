@@ -6,11 +6,14 @@
 package dominoMultiplayer;
 
 import dominoMultiplayer.classes.DominoPiece;
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.URL;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -24,6 +27,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Text;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -138,6 +142,7 @@ public class FXMLDocumentController implements Initializable {
 
     private LinkedList<DominoPiece> hand;
     private Thread clientThread;
+    private Thread serverThread;
 
     public FXMLDocumentController() {
 
@@ -204,10 +209,6 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     public void buyPiece() {
         client.buyPiece();
-//        boolean bougth = game.buyPiece(hash);
-//        drawGrid(game);
-//        System.out.println("bougth: " + bougth);
-//        buyPiece.setDisable(!bougth);
     }
 
     public void drawGrid() {
@@ -276,7 +277,6 @@ public class FXMLDocumentController implements Initializable {
         if (x == 0) {
             ((Text) pieceGrid.get(x + y * X_LIMIT)).setText(verPieces[p.getB()][p.getA()]);
         }
-
         return ((Text) pieceGrid.get(x + y * X_LIMIT));
     }
 
@@ -303,10 +303,23 @@ public class FXMLDocumentController implements Initializable {
     }
 
     public void hostBtn() {
+        serverThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    server.listen();
+                } catch (Exception ex) {
+                    System.out.println("Server Exception!");
+                }
+            }
+        });
         try {
             server = new Server(InetAddress.getByName(addressInput.getText()));
+            serverThread.start();
             joinBtn();
         } catch (Exception ex) {
+            System.out.println("dominoMultiplayer.FXMLDocumentController.hostBtn() " + ex);
+            serverThread.interrupt();
             connectionError(addressInput.getText());
         }
     }
@@ -321,6 +334,15 @@ public class FXMLDocumentController implements Initializable {
         System.out.println("dominoMultiplayer.FXMLDocumentController.quitBtn()");
         matchMaking.setVisible(false);
         menuScreen.setVisible(true);
+
+        if (serverThread.isAlive()) {
+            try {
+                server.close();
+                serverThread.interrupt();
+            } catch (IOException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
 
     public void connectionError(String address) {
@@ -381,12 +403,9 @@ public class FXMLDocumentController implements Initializable {
         this.canBuy = false;
     }
 
+    @FXML
     void showAlert(String title, String text) {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(text);
-        alert.showAndWait();
+        JOptionPane.showMessageDialog(null, text, title, JOptionPane.INFORMATION_MESSAGE);
     }
 
     public void gameover(String text) {
@@ -403,16 +422,23 @@ public class FXMLDocumentController implements Initializable {
         menuScreen.setVisible(true);
         gameScreen.setVisible(false);
         endgamePane.setVisible(false);
-        
+
         start = null;
         left = null;
         right = null;
-        
+
         clearScreen();
+        if (serverThread.isAlive()) {
+            try {
+                server.close();
+                serverThread.interrupt();
+            } catch (IOException ex) {
+                Logger.getLogger(FXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
-    
-    public void setPlayersStatus(String status){
-        System.out.println("setPlayersStatus() " + status);
+
+    public void setPlayersStatus(String status) {
         playersStatusText.setText(status);
     }
 }

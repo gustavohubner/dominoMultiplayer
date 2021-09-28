@@ -19,13 +19,10 @@ import javafx.stage.WindowEvent;
  * @author gusta
  */
 public class main extends Application {
-
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
-
         Scene scene = new Scene(root);
-
         stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             @Override
             public void handle(WindowEvent t) {
@@ -33,7 +30,6 @@ public class main extends Application {
                 System.exit(0);
             }
         });
-
         stage.setScene(scene);
         stage.show();
     }

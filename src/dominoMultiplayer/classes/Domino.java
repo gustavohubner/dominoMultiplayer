@@ -30,14 +30,13 @@ public class Domino {
         playerPieces = new LinkedList<>();
 
         for (int i = 0; i < 7; i++) {
-            for (int j = i; j < 7; j++) {
+            for (int j = i; j < 3; j++) {
                 pieces.push(new DominoPiece(i, j));
             }
         }
         Collections.shuffle(pieces, new Random(System.currentTimeMillis()));
         table = new DominoTable();
 
-//        table.setStartPiece(pieces.pop());
         System.out.println("" + players.toString());
     }
 

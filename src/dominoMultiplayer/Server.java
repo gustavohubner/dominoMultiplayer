@@ -23,7 +23,7 @@ import network.ServerGame;
 public class Server {
 
     private static final int MAX_PLAYERS = 4;
-    private int numPlayers;
+    
     // gameList // lista com todos jogos atuais;
     private LinkedList<ServerClientHandler> playerList; // lista com os players em cada jogo/esperando...
 
@@ -34,7 +34,6 @@ public class Server {
 
     public Server(InetAddress ipAddress) throws Exception {
         this.server = new ServerSocket(42069, 1, ipAddress);
-        numPlayers = 0;
         playerList = new LinkedList<ServerClientHandler>();
     }
 
@@ -44,7 +43,7 @@ public class Server {
         playerList = new LinkedList<ServerClientHandler>();
     }
 
-    private void listen() throws Exception {
+    public void listen() throws Exception {
         while (true) {
             playerQuit = false;
             Thread t2;
@@ -99,9 +98,6 @@ public class Server {
             ServerGame sg = new ServerGame(clients, game);
             Thread t = new Thread(sg);
             t.start();
-            t.join();
-
-            numPlayers = 0;
         }
     }
 
@@ -118,7 +114,6 @@ public class Server {
         System.out.println("\r\nRunning Server: "
                 + "Host=" + app.getSocketAddress().getHostAddress()
                 + " Port=" + app.getPort());
-
         app.listen();
     }
 
@@ -135,5 +130,8 @@ public class Server {
                 }
             }
         }
+    }
+    public void close() throws IOException{
+        server.close();
     }
 }

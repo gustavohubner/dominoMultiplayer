@@ -27,15 +27,16 @@ public class Client implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
-            try {
+        try {
+            while (true) {
                 String command = dis.readUTF();
                 System.out.println("Server Command: " + command);
                 processComand(command);
-            } catch (IOException ex) {
-                return;
             }
+        } catch (Exception ex) {
+            System.err.println("Comnection Error!");
         }
+
     }
 
     Client(InetAddress serverAddress, int serverPort, FXMLDocumentController gui) {
@@ -150,7 +151,6 @@ public class Client implements Runnable {
             }
             scanner.close();
             return;
-
         }
 
         scanner.close();
