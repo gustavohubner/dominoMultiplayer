@@ -90,7 +90,7 @@ public class Server {
     }
 
     public static void main(String[] args) throws Exception {
-        Server app = new Server(InetAddress.getByName("localhost"));
+        Server app = new Server(InetAddress.getByName("26.168.167.45"));
         System.out.println("\r\nRunning Server: "
                 + "Host=" + app.getSocketAddress().getHostAddress()
                 + " Port=" + app.getPort());

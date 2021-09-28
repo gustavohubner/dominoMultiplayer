@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.application.Application;
 
 /**
  *
@@ -58,6 +59,14 @@ public class ServerGame implements Runnable {
             while (!gameover) {
                 // Comandos vindo dos clientes
                 for (ServerClientHandler client : clients) {
+                    int winnerHash = game.checkEnd();
+                    if (winnerHash != -1) {
+                        endGame(winnerHash);
+                        for (ServerClientHandler cl2 : clients) {
+                            cl2.socket.close();
+                        }
+                        System.exit(0);
+                    }
                     if (client.getPlayerHash() == clientTurn()) {
                         boolean done;
                         do {
@@ -70,14 +79,13 @@ public class ServerGame implements Runnable {
                         passTurn();
                         updateGame();
                     }
-                    int winnerHash = game.checkEnd();
+                    winnerHash = game.checkEnd();
                     if (winnerHash != -1) {
                         endGame(winnerHash);
                         for (ServerClientHandler cl2 : clients) {
                             cl2.socket.close();
                         }
-
-                        Thread.currentThread().interrupt();
+                        System.exit(0);
                     }
                 }
             }

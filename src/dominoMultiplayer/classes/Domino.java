@@ -51,7 +51,6 @@ public class Domino {
             if (playerPieces.get(players.get(key)).isEmpty()) {
                 return key;
             }
-            break;
         }
         return -1;
     }
@@ -63,7 +62,7 @@ public class Domino {
     public int addPlayer() {
         if (players.size() < 4) {
             LinkedList<DominoPiece> hand = new LinkedList<>();
-            for (int i = 0; i < 1; i++) {
+            for (int i = 0; i < 3; i++) {
                 hand.add(pieces.pop());
             }
             playerPieces.add(hand);
