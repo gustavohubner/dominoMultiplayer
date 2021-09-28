@@ -47,7 +47,7 @@ public class Server {
 
             ServerClientHandler c = new ServerClientHandler(client);
             playerList.add(c);
-
+            
             for (ServerClientHandler c1 : playerList) {
                 if (c1.socket.isClosed()) {
                     System.err.println("Connection lost!");

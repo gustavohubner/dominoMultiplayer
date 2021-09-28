@@ -18,6 +18,7 @@ public class ServerGame implements Runnable {
     private int playerTurn;
     private ServerClientHandler[] clients;
     private boolean gameover = false;
+    private int passes = 0;
 
     public ServerGame(ServerClientHandler[] clients, Domino game) {
         this.clients = clients;
@@ -61,10 +62,7 @@ public class ServerGame implements Runnable {
                 for (ServerClientHandler client : clients) {
                     int winnerHash = game.checkEnd();
                     if (winnerHash != -1) {
-                        endGame(winnerHash);
-                        for (ServerClientHandler cl2 : clients) {
-                            cl2.socket.close();
-                        }
+                        closeGame(winnerHash);
                         System.exit(0);
                     }
                     if (client.getPlayerHash() == clientTurn()) {
@@ -74,6 +72,10 @@ public class ServerGame implements Runnable {
                             System.out.println("Client " + client.getPlayerHash() + ": " + clientCommand);
 
                             done = processCommand(clientCommand, client);
+
+                            if (passes >= clients.length * 2) {
+                                closeGame(-1);
+                            }
                         } while (!done);
 
                         passTurn();
@@ -81,10 +83,7 @@ public class ServerGame implements Runnable {
                     }
                     winnerHash = game.checkEnd();
                     if (winnerHash != -1) {
-                        endGame(winnerHash);
-                        for (ServerClientHandler cl2 : clients) {
-                            cl2.socket.close();
-                        }
+                        closeGame(winnerHash);
                         System.exit(0);
                     }
                 }
@@ -115,6 +114,7 @@ public class ServerGame implements Runnable {
         boolean myTurn = false;
 
         if (line.equals("PASS {")) {
+            passes++;
             int hash = Integer.parseInt(getNextLine(scanner));
             return true;
         }
@@ -196,5 +196,16 @@ public class ServerGame implements Runnable {
             }
         }
         gameover = true;
+    }
+
+    private void closeGame(int winnerHash) {
+        try {
+            endGame(winnerHash);
+            for (ServerClientHandler cl2 : clients) {
+                cl2.socket.close();
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(ServerGame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }
