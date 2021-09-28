@@ -23,7 +23,7 @@ import network.ServerGame;
 public class Server {
 
     private static final int MAX_PLAYERS = 4;
-    
+
     // gameList // lista com todos jogos atuais;
     private LinkedList<ServerClientHandler> playerList; // lista com os players em cada jogo/esperando...
 
@@ -109,12 +109,22 @@ public class Server {
         return this.server.getLocalPort();
     }
 
-    public static void main(String[] args) throws Exception {
-        Server app = new Server(InetAddress.getByName("26.168.167.45"));
-        System.out.println("\r\nRunning Server: "
-                + "Host=" + app.getSocketAddress().getHostAddress()
-                + " Port=" + app.getPort());
-        app.listen();
+    public static void main(String[] args) {
+        if (args.length > 0) {
+            try {
+                System.out.println("Address: " + args[0]);
+                Server app = new Server(InetAddress.getByName("26.168.167.45"));
+                System.out.println("\r\nRunning Server: "
+                        + "Host=" + app.getSocketAddress().getHostAddress()
+                        + " Port=" + app.getPort());
+                app.listen();
+            } catch (Exception ex) {
+                System.out.println("Error while launching server!");
+            }
+        } else {
+            System.out.println("Please specify a valid address!");
+        }
+
     }
 
     private void checkConection() throws IOException {
@@ -131,7 +141,8 @@ public class Server {
             }
         }
     }
-    public void close() throws IOException{
+
+    public void close() throws IOException {
         server.close();
     }
 }
