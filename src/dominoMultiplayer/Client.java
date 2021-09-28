@@ -29,15 +29,11 @@ public class Client implements Runnable {
     public void run() {
         while (true) {
             try {
-                if (!socket.isClosed()) {
-                    String command = dis.readUTF();
-                    System.out.println("Server Command: " + command);
-                    processComand(command);
-                } else {
-                    Thread.currentThread().interrupt();
-                }
+                String command = dis.readUTF();
+                System.out.println("Server Command: " + command);
+                processComand(command);
             } catch (IOException ex) {
-                Thread.currentThread().interrupt();
+                return;
             }
         }
     }
@@ -153,7 +149,7 @@ public class Client implements Runnable {
                 gui.gameover("You lost!");
             }
             scanner.close();
-            Thread.currentThread().interrupt();
+            return;
 
         }
 

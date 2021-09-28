@@ -48,7 +48,8 @@ public class Server {
         while (true) {
             playerQuit = false;
             Thread t2;
-            while (joined || !(playerList.size() >= 2)) {
+            while (joined || !(playerList.size() >= 2) || playerQuit) {
+                playerQuit = false;
                 t2 = new Thread(new Runnable() {
                     public void run() {
                         try {
@@ -70,18 +71,18 @@ public class Server {
                 });
                 joined = false;
                 t2.start();
-                t2.join(5000);
-                for (ServerClientHandler c1 : playerList) {
-                    try {
-                        c1.sendToClient("PING {\n}");
-                    } catch (IOException ex) {
-                        playerList.remove(c1);
-                        System.out.println("Player " + c1.getPlayerHash() + " disconnected!");
-                        for (ServerClientHandler c12 : playerList) {
-                            c12.sendToClient("QUEUE {\n" + playerList.size() + "\n}");
-                        }
-                    }
-                }
+
+                Thread.sleep(1000);
+                checkConection();
+                Thread.sleep(1000);
+                checkConection();
+                Thread.sleep(1000);
+                checkConection();
+                Thread.sleep(1000);
+                checkConection();
+                t2.join(1000);
+                t2.interrupt();
+                checkConection();
 
                 System.out.println("\r\nNum Players: " + playerList.size() + "/" + MAX_PLAYERS);
             }
@@ -119,5 +120,20 @@ public class Server {
                 + " Port=" + app.getPort());
 
         app.listen();
+    }
+
+    private void checkConection() throws IOException {
+        for (ServerClientHandler c1 : playerList) {
+            try {
+                c1.sendToClient("PING {\n}");
+            } catch (IOException ex) {
+                playerList.remove(c1);
+                playerQuit = true;
+                System.out.println("Player " + c1.getPlayerHash() + " disconnected!");
+                for (ServerClientHandler c12 : playerList) {
+                    c12.sendToClient("QUEUE {\n" + playerList.size() + "\n}");
+                }
+            }
+        }
     }
 }
