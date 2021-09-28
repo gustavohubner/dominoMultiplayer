@@ -131,6 +131,7 @@ public class FXMLDocumentController implements Initializable {
     private Text endGameText;
 
     private LinkedList<DominoPiece> hand;
+    private Thread clientThread;
 
     public FXMLDocumentController() {
 
@@ -282,8 +283,8 @@ public class FXMLDocumentController implements Initializable {
         try {
             System.err.println("" + InetAddress.getByName(addressInput.getText()));
             client = new Client(InetAddress.getByName(addressInput.getText()), 42069, this);
-            Thread t = new Thread(client);
-            t.start();
+            clientThread= new Thread(client);
+            clientThread.start();
         } catch (Exception ex) {
             connectionError(addressInput.getText());
         }
@@ -385,5 +386,7 @@ public class FXMLDocumentController implements Initializable {
         endGameText.setText(text);
         endGameText.setVisible(true);
         setMyTurn(false);
+        clientThread.interrupt();
+        
     }
 }

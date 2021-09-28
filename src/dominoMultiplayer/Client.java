@@ -148,6 +148,8 @@ public class Client implements Runnable {
             } else {
                 gui.gameover("You lost!");
             }
+            scanner.close();
+            Thread.currentThread().interrupt();
 
         }
 
