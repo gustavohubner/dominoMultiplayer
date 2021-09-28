@@ -40,47 +40,45 @@ public class Server {
     }
 
     private void listen() throws Exception {
-        while (true) {
-            while (playerList.size() < MAX_PLAYERS) {
-                Socket client = this.server.accept();
-                String clientAddress = client.getInetAddress().getHostAddress();
-                System.out.println("\r\nNew connection from " + clientAddress);
+        while (playerList.size() < MAX_PLAYERS) {
+            Socket client = this.server.accept();
+            String clientAddress = client.getInetAddress().getHostAddress();
+            System.out.println("\r\nNew connection from " + clientAddress);
 
-                ServerClientHandler c = new ServerClientHandler(client);
-                playerList.add(c);
+            ServerClientHandler c = new ServerClientHandler(client);
+            playerList.add(c);
 
-                for (ServerClientHandler c1 : playerList) {
-                    if (c1.socket.isClosed()) {
-                        System.err.println("Connection lost!");
-                        playerList.remove(c1);
-                    }
+            for (ServerClientHandler c1 : playerList) {
+                if (c1.socket.isClosed()) {
+                    System.err.println("Connection lost!");
+                    playerList.remove(c1);
                 }
-
-                for (ServerClientHandler c1 : playerList) {
-                    c1.sendToClient("QUEUE {\n" + playerList.size() + "\n}");
-                }
-
-                System.out.println("\r\nNum Players: " + playerList.size() + "/" + MAX_PLAYERS);
             }
 
-            Domino game = new Domino();
-            int i = 0;
-            ServerClientHandler[] clients = new ServerClientHandler[MAX_PLAYERS];
-
-            while (!playerList.isEmpty()) {
-                ServerClientHandler ch = playerList.pop();
-                ch.setHash(game.addPlayer());
-                clients[i] = ch;
-                i++;
+            for (ServerClientHandler c1 : playerList) {
+                c1.sendToClient("QUEUE {\n" + playerList.size() + "\n}");
             }
 
-            ServerGame sg = new ServerGame(clients, game);
-            Thread t = new Thread(sg);
-            t.start();
-
-            numPlayers = 0;
+            System.out.println("\r\nNum Players: " + playerList.size() + "/" + MAX_PLAYERS);
         }
 
+        Domino game = new Domino();
+        int i = 0;
+        ServerClientHandler[] clients = new ServerClientHandler[MAX_PLAYERS];
+
+        while (!playerList.isEmpty()) {
+            ServerClientHandler ch = playerList.pop();
+            ch.setHash(game.addPlayer());
+            clients[i] = ch;
+            i++;
+        }
+
+        ServerGame sg = new ServerGame(clients, game);
+        Thread t = new Thread(sg);
+        t.start();
+        t.join();
+
+        numPlayers = 0;
     }
 
     public InetAddress getSocketAddress() {

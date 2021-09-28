@@ -34,10 +34,10 @@ public class Client implements Runnable {
 
                     processComand(command);
                 } else {
-                    return;
+                    Thread.currentThread().interrupt();
                 }
             } catch (IOException ex) {
-                Logger.getLogger(Client.class.getName()).log(Level.SEVERE, null, ex);
+                Thread.currentThread().interrupt();
             }
         }
     }
@@ -141,8 +141,9 @@ public class Client implements Runnable {
         }
         if (line.equals("GAMEOVER {")) {
             gui.setMyTurn(false);
-            int winnerHash = Integer.parseInt(getNextLine(scanner));
-            if (winnerHash == hash) {
+            boolean winnerHash = Boolean.parseBoolean(getNextLine(scanner));
+            System.out.println("win " + winnerHash);
+            if (winnerHash) {
                 gui.gameover("You won!");
             } else {
                 gui.gameover("You lost!");

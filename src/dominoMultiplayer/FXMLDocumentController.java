@@ -380,9 +380,10 @@ public class FXMLDocumentController implements Initializable {
         alert.setContentText(text);
         alert.showAndWait();
     }
-    
-    public void gameover(String text){
-        setMyTurn(false);
+
+    public void gameover(String text) {
         endGameText.setText(text);
+        endGameText.setVisible(true);
+        setMyTurn(false);
     }
 }

@@ -56,7 +56,6 @@ public class ServerGame implements Runnable {
             }
             System.out.println("Game started!");
             while (!gameover) {
-                // jogo ...
                 // Comandos vindo dos clientes
                 for (ServerClientHandler client : clients) {
                     if (client.getPlayerHash() == clientTurn()) {
@@ -68,22 +67,21 @@ public class ServerGame implements Runnable {
                             done = processCommand(clientCommand, client);
                         } while (!done);
 
-                        int winnerHash = game.checkEnd();
-                        if (winnerHash != -1) {
-                            endGame(winnerHash);
-                        }
                         passTurn();
                         updateGame();
-                        break;
+                    }
+                    int winnerHash = game.checkEnd();
+                    if (winnerHash != -1) {
+                        endGame(winnerHash);
+                        for (ServerClientHandler cl2 : clients) {
+                            cl2.socket.close();
+                        }
+
+                        Thread.currentThread().interrupt();
                     }
                 }
+            }
 
-                // update os players
-            }
-            
-            for(ServerClientHandler cl : clients){
-                cl.socket.close();
-            }
         } catch (IOException ex) {
             System.err.println("Erro em ServerGame.run()");
             System.err.println(ex);

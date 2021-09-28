@@ -131,6 +131,19 @@
                            </BorderPane.margin>
                         </Text>
                      </top>
+                     <center>
+                        <Text fx:id="endGameText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="You won/lost" visible="false" BorderPane.alignment="CENTER">
+                           <font>
+                              <Font name="Comic Sans MS" size="96.0" />
+                           </font>
+                           <effect>
+                              <DropShadow height="20.0" offsetY="10.0" radius="4.5" spread="1.0" width="0.0" />
+                           </effect>
+                           <BorderPane.margin>
+                              <Insets top="100.0" />
+                           </BorderPane.margin>
+                        </Text>
+                     </center>
                   </BorderPane>
                   <GridPane id="dominoGrid" fx:id="dominoGrid" alignment="CENTER" minWidth="-Infinity" prefHeight="400.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columnConstraints>

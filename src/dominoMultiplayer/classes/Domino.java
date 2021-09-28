@@ -47,7 +47,8 @@ public class Domino {
 
     public int checkEnd() {
         for (int key : players.keySet()) {
-            if (playerPieces.get(players.get(key)).isEmpty()){
+            System.out.println("CHECK WIN >>> hash: " + key + "  pieces:" + playerPieces.get(players.get(key)).size() + " win: " + playerPieces.get(players.get(key)).isEmpty());
+            if (playerPieces.get(players.get(key)).isEmpty()) {
                 return key;
             }
             break;
@@ -62,7 +63,7 @@ public class Domino {
     public int addPlayer() {
         if (players.size() < 4) {
             LinkedList<DominoPiece> hand = new LinkedList<>();
-            for (int i = 0; i < 7; i++) {
+            for (int i = 0; i < 1; i++) {
                 hand.add(pieces.pop());
             }
             playerPieces.add(hand);
