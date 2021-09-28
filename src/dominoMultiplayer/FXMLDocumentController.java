@@ -114,6 +114,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private FlowPane playerHand;
     @FXML
+    private FlowPane endgamePane;
+    @FXML
     private Button buyPiece;
     @FXML
     private Button passBtn;
@@ -122,6 +124,8 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private Button joinBtn;
     @FXML
+    private Button mainMenuBtn;
+    @FXML
     private TextField addressInput;
     @FXML
     private Text queueText;
@@ -129,6 +133,8 @@ public class FXMLDocumentController implements Initializable {
     private Text turnIndicator;
     @FXML
     private Text endGameText;
+    @FXML
+    private Text playersStatusText;
 
     private LinkedList<DominoPiece> hand;
     private Thread clientThread;
@@ -140,6 +146,7 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        endgamePane.setVisible(false);
         gameScreen.setVisible(false);
         menuScreen.setVisible(true);
         matchMaking.setVisible(false);
@@ -283,7 +290,7 @@ public class FXMLDocumentController implements Initializable {
         try {
             System.err.println("" + InetAddress.getByName(addressInput.getText()));
             client = new Client(InetAddress.getByName(addressInput.getText()), 42069, this);
-            clientThread= new Thread(client);
+            clientThread = new Thread(client);
             clientThread.start();
         } catch (Exception ex) {
             connectionError(addressInput.getText());
@@ -383,10 +390,29 @@ public class FXMLDocumentController implements Initializable {
     }
 
     public void gameover(String text) {
+        endgamePane.setVisible(true);
         endGameText.setText(text);
-        endGameText.setVisible(true);
         setMyTurn(false);
         clientThread.interrupt();
+
+    }
+
+    public void mainManuBtn() {
+        System.out.println("dominoMultiplayer.FXMLDocumentController.mainManuBtn()");
+        matchMaking.setVisible(false);
+        menuScreen.setVisible(true);
+        gameScreen.setVisible(false);
+        endgamePane.setVisible(false);
         
+        start = null;
+        left = null;
+        right = null;
+        
+        clearScreen();
+    }
+    
+    public void setPlayersStatus(String status){
+        System.out.println("setPlayersStatus() " + status);
+        playersStatusText.setText(status);
     }
 }

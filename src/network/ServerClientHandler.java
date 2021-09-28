@@ -27,7 +27,7 @@ public class ServerClientHandler {
         }
     }
 
-    public void sendToClient(String command) throws IOException {
+    public void sendToClient(String command) throws IOException{
         dos.writeUTF(command);
     }
 

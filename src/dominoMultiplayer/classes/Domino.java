@@ -121,16 +121,17 @@ public class Domino {
                 playerPieces.get(index).add(pieces.pop());
                 return true;
             }
-
         }
-        System.out.println("ACOBOU AS PEÇA!!!)");
+        System.out.println("No more pieces to buy!");
         return false;
     }
 
-    public String getPlayerNumString() {
+    public String getPlayerNumString(int hash) {
         String str = playerPieces.size() + "";
-        for (List<DominoPiece> player : playerPieces) {
-            str += "\n" + player.size();
+        for (int i = 0; i < playerPieces.size(); i++) {
+            if (i != players.get(hash)) {
+                str += "\n" + playerPieces.get(i).size();
+            }
         }
         return str;
     }

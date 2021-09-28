@@ -3,6 +3,7 @@ package network;
 import dominoMultiplayer.classes.Domino;
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,11 +17,11 @@ public class ServerGame implements Runnable {
 
     private Domino game;
     private int playerTurn;
-    private ServerClientHandler[] clients;
+    private LinkedList<ServerClientHandler> clients;
     private boolean gameover = false;
     private int passes = 0;
 
-    public ServerGame(ServerClientHandler[] clients, Domino game) {
+    public ServerGame(LinkedList<ServerClientHandler> clients, Domino game) {
         this.clients = clients;
         this.game = game;
         this.playerTurn = 0;
@@ -35,18 +36,19 @@ public class ServerGame implements Runnable {
     }
 
     private DataInputStream getDISCurrentTurn() {
-        return clients[playerTurn].dis;
+        return clients.get(playerTurn).dis;
     }
 
     public void run() {
         System.out.println("Starting game ...");
         try {
             for (ServerClientHandler client : clients) {
+                System.out.println("network.ServerGame.run() " + clients.size());
                 int hash = client.getPlayerHash();
+                System.out.println("network.ServerGame.run() " + clients.size() + " " + hash);
                 // Começa partida
                 client.sendToClient("START {"
                         + "\n" + (clientTurn() == hash)
-                        + "\n" + game.getPlayerNumString()
                         + "\n}");
 
                 // COMANDO INICIAL
@@ -54,16 +56,16 @@ public class ServerGame implements Runnable {
                         + "\n" + hash
                         + "\n" + game.getPlayerHand(client.getPlayerHash())
                         + "\n}");
-
             }
             System.out.println("Game started!");
+            updateGame();
             while (!gameover) {
                 // Comandos vindo dos clientes
                 for (ServerClientHandler client : clients) {
                     int winnerHash = game.checkEnd();
                     if (winnerHash != -1) {
                         closeGame(winnerHash);
-                        System.exit(0);
+                        return;
                     }
                     if (client.getPlayerHash() == clientTurn()) {
                         boolean done;
@@ -73,8 +75,9 @@ public class ServerGame implements Runnable {
 
                             done = processCommand(clientCommand, client);
 
-                            if (passes >= clients.length * 2) {
+                            if (passes >= clients.size() * 2) {
                                 closeGame(-1);
+                                return;
                             }
                         } while (!done);
 
@@ -84,7 +87,7 @@ public class ServerGame implements Runnable {
                     winnerHash = game.checkEnd();
                     if (winnerHash != -1) {
                         closeGame(winnerHash);
-                        System.exit(0);
+                        return;
                     }
                 }
             }
@@ -96,15 +99,15 @@ public class ServerGame implements Runnable {
     }
 
     private int getPlayerHash(int turn) {
-        return clients[turn].getPlayerHash();
+        return clients.get(turn).getPlayerHash();
     }
 
     private void passTurn() {
-        playerTurn = (playerTurn + 1) % clients.length;
+        playerTurn = (playerTurn + 1) % clients.size();
     }
 
     private int clientTurn() {
-        return clients[playerTurn].getPlayerHash();
+        return clients.get(playerTurn).getPlayerHash();
     }
 
     // retorna true se acaba rodada do jogador
@@ -123,6 +126,7 @@ public class ServerGame implements Runnable {
             int hash = Integer.parseInt(getNextLine(scanner));
             boolean sucess = game.buyPiece(hash);
             updatePlayerHand(cl, sucess);
+            passes = 0;
             return false;
         }
 
@@ -136,6 +140,8 @@ public class ServerGame implements Runnable {
 
                 if (!result) {
                     cl.sendToClient("ADDFAIL {\n}");
+                } else {
+                    passes = 0;
                 }
 
                 return result;
@@ -162,6 +168,7 @@ public class ServerGame implements Runnable {
                         + "\n" + game.getRightSide()
                         + "\n" + game.getPlayerHand(cl.getPlayerHash())
                         + "\n" + (clientTurn() == cl.getPlayerHash())
+                        + "\n" + game.getPlayerNumString(cl.getPlayerHash())
                         + "\n}";
                 System.out.println("Update to " + cl.getPlayerHash() + ":\n" + command);
                 cl.sendToClient(command);

@@ -118,7 +118,7 @@
           <RowConstraints maxHeight="-Infinity" minHeight="136.0" prefHeight="136.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
                <children>
                   <BorderPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <top>
@@ -131,19 +131,16 @@
                            </BorderPane.margin>
                         </Text>
                      </top>
-                     <center>
-                        <Text fx:id="endGameText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="You won/lost" visible="false" BorderPane.alignment="CENTER">
+                     <left>
+                        <Text fx:id="playersStatusText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" BorderPane.alignment="TOP_LEFT">
                            <font>
-                              <Font name="Comic Sans MS" size="96.0" />
+                              <Font size="14.0" />
                            </font>
-                           <effect>
-                              <DropShadow height="20.0" offsetY="10.0" radius="4.5" spread="1.0" width="0.0" />
-                           </effect>
                            <BorderPane.margin>
-                              <Insets top="100.0" />
+                              <Insets left="20.0" />
                            </BorderPane.margin>
                         </Text>
-                     </center>
+                     </left>
                   </BorderPane>
                   <GridPane id="dominoGrid" fx:id="dominoGrid" alignment="CENTER" minWidth="-Infinity" prefHeight="400.0" prefWidth="1000.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <columnConstraints>
@@ -562,6 +559,23 @@
                         <Insets />
                      </opaqueInsets>
                   </GridPane>
+                  <FlowPane fx:id="endgamePane" alignment="CENTER" columnHalignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" orientation="VERTICAL" prefHeight="300.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="230.0">
+                     <children>
+                        <Text fx:id="endGameText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="You won/lost">
+                           <font>
+                              <Font name="Comic Sans MS" size="96.0" />
+                           </font>
+                           <effect>
+                              <DropShadow height="20.0" offsetY="10.0" radius="4.5" spread="1.0" width="0.0" />
+                           </effect>
+                        </Text>
+                        <Button fx:id="mainMenuBtn" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#mainManuBtn" prefWidth="200.0" text="Main menu">
+                           <font>
+                              <Font size="25.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </FlowPane>
                </children>
             </AnchorPane>
           <AnchorPane maxHeight="-Infinity" minHeight="136.0" minWidth="0.0" prefHeight="136.0" prefWidth="370.0" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="BOTTOM" GridPane.vgrow="NEVER">

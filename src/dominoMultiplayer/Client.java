@@ -31,7 +31,7 @@ public class Client implements Runnable {
             try {
                 if (!socket.isClosed()) {
                     String command = dis.readUTF();
-
+                    System.out.println("Server Command: " + command);
                     processComand(command);
                 } else {
                     Thread.currentThread().interrupt();
@@ -43,7 +43,6 @@ public class Client implements Runnable {
     }
 
     Client(InetAddress serverAddress, int serverPort, FXMLDocumentController gui) {
-
         try {
             this.socket = new Socket(serverAddress, serverPort);
             this.gui = gui;
@@ -104,8 +103,6 @@ public class Client implements Runnable {
 
         if (line.equals("START {")) {
             myTurn = Boolean.parseBoolean(getNextLine(scanner));
-            // TODO: tambem é mandado o num de player e pecas de cada um
-//             int playernum = Integer.parseInt(getNextLine(scanner));
             gui.startGame();
             gui.setMyTurn(myTurn);
         }
@@ -117,9 +114,16 @@ public class Client implements Runnable {
             left = getNextLine(scanner);
             right = getNextLine(scanner);
             handStr = getNextLine(scanner);
-            // TODO: tambem é mandado o num de player e pecas de cada um
             boolean turn = Boolean.parseBoolean(getNextLine(scanner));
 
+            String players = "Other Players: ";
+
+            int numPlayer = Integer.parseInt(getNextLine(scanner));
+            for (int i = 0; i < numPlayer - 1; i++) {
+                int x = Integer.parseInt(getNextLine(scanner));
+                players += "\nPlayer " + (i + 1) + ": " + x + (x > 1 ? " Domino pieces" : " Domino piece");
+            }
+            gui.setPlayersStatus(players);
             gui.setTableString(start, left, right);
             gui.setHandString(handStr);
             gui.setMyTurn(turn);
