@@ -28,17 +28,10 @@ public class Server {
     private LinkedList<ServerClientHandler> playerList; // lista com os players em cada jogo/esperando...
 
     private ServerSocket server;
-    private FXMLDocumentController gui;
     private boolean joined = true;
     private boolean playerQuit;
 
     public Server(InetAddress ipAddress) throws Exception {
-        this.server = new ServerSocket(42069, 1, ipAddress);
-        playerList = new LinkedList<ServerClientHandler>();
-    }
-
-    public Server(InetAddress ipAddress, FXMLDocumentController gui) throws Exception {
-        this.gui = gui;
         this.server = new ServerSocket(42069, 1, ipAddress);
         playerList = new LinkedList<ServerClientHandler>();
     }
@@ -113,7 +106,7 @@ public class Server {
         if (args.length > 0) {
             try {
                 System.out.println("Address: " + args[0]);
-                Server app = new Server(InetAddress.getByName("26.168.167.45"));
+                Server app = new Server(InetAddress.getByName(args[0]));
                 System.out.println("\r\nRunning Server: "
                         + "Host=" + app.getSocketAddress().getHostAddress()
                         + " Port=" + app.getPort());

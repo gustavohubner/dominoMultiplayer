@@ -33,3 +33,6 @@ hs_err_pid*
 /JavaFXApplication2/nbproject/private/
 /JavaFXApplication2/build/
 /JavaFXApplication2/dist/
+/DominoServer/nbproject/private/
+/DominoServer/build/
+/DominoServer/dist/

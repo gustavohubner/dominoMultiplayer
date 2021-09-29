@@ -30,7 +30,7 @@ public class Domino {
         playerPieces = new LinkedList<>();
 
         for (int i = 0; i < 7; i++) {
-            for (int j = i; j < 3; j++) {
+            for (int j = i; j < 7; j++) {
                 pieces.push(new DominoPiece(i, j));
             }
         }
@@ -61,7 +61,7 @@ public class Domino {
     public int addPlayer() {
         if (players.size() < 4) {
             LinkedList<DominoPiece> hand = new LinkedList<>();
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 7; i++) {
                 hand.add(pieces.pop());
             }
             playerPieces.add(hand);
