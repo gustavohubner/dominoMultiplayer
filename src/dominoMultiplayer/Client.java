@@ -136,7 +136,7 @@ public class Client implements Runnable {
                 newHand = getNextLine(scanner);
                 gui.setHandString(newHand);
             } else {
-                gui.showAlert("Atention", "No more pieces to buy!");
+                gui.showAlert("Attention", "No more domino pieces to buy!");
             }
             gui.drawGrid();
         }
