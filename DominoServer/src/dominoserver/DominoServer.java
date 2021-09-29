@@ -11,7 +11,6 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.LinkedList;
-import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -114,6 +113,7 @@ public class DominoServer {
         
         ServerClientHandler c = new ServerClientHandler(client);
         playerList.add(c);       
+        count++;
       } 
       
       for (ServerClientHandler c12 : playerList) {

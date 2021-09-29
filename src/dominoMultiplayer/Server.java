@@ -11,6 +11,7 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.LinkedList;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import network.ServerClientHandler;
@@ -26,14 +27,16 @@ public class Server {
 
     // gameList // lista com todos jogos atuais;
     private LinkedList<ServerClientHandler> playerList; // lista com os players em cada jogo/esperando...
-
+    private LinkedList<Socket> waitingPlayers;
+    
     private ServerSocket server;
     private boolean joined = true;
     private boolean playerQuit;
 
     public Server(InetAddress ipAddress) throws Exception {
         this.server = new ServerSocket(42069, 1, ipAddress);
-        playerList = new LinkedList<ServerClientHandler>();
+        playerList = new LinkedList<>();
+        waitingPlayers = new LinkedList<>();
     }
 
     public void listen() throws Exception {
@@ -42,20 +45,35 @@ public class Server {
             Thread t2;
             while (joined || !(playerList.size() >= 2) || playerQuit) {
                 playerQuit = false;
+                ReentrantLock lock = new ReentrantLock();
                 t2 = new Thread(new Runnable() {
                     public void run() {
                         try {
                             Socket client = server.accept();
+                            lock.lock();
                             String clientAddress = client.getInetAddress().getHostAddress();
-                            System.out.println("\r\nNew connection from " + clientAddress);
-
-                            ServerClientHandler c = new ServerClientHandler(client);
-                            playerList.add(c);
-                            for (ServerClientHandler c12 : playerList) {
+                            if (playerList.size() < 4) {
+                              System.out.println("\r\nNew connection from " + clientAddress);
+                              
+                              ServerClientHandler c = new ServerClientHandler(client);
+                              playerList.add(c);
+                              
+                              for (ServerClientHandler c12 : playerList) {
                                 c12.sendToClient("QUEUE {\n" + playerList.size() + "\n}");
-                            }
+                              }
 
-                            joined = true;
+                              joined = true;
+                            } else {
+                              System.out.println("PlayerListSize, mas onde deveria limitar: " +  playerList.size());
+                              System.out.println("\r\nNew connection from " + clientAddress + " Is Waiting");
+
+                              waitingPlayers.add(client);
+                            }
+                            lock.unlock();
+                            
+
+                            
+                            
                         } catch (IOException ex) {
                             Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
                         }
@@ -91,6 +109,20 @@ public class Server {
             ServerGame sg = new ServerGame(clients, game);
             Thread t = new Thread(sg);
             t.start();
+            
+            int count = 0;
+            while (!waitingPlayers.isEmpty() && count < 4) {
+              Socket client = waitingPlayers.pop();
+              
+              ServerClientHandler c = new ServerClientHandler(client);
+              playerList.add(c);
+              
+              count++;
+            }
+            
+            for (ServerClientHandler cl2 : playerList) {
+              cl2.sendToClient("QUEUE {\n" + playerList.size() + "\n}");
+            }
         }
     }
 
